@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>José Luis Friedrich</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        /*
+            José Luis Friedrich
+        */
+
+        var name = prompt('Ingrese nombre: ');
+        var age = parseInt(prompt('Ingrese edad: '));
+        var ageAppearance = age - 2;
+
+        //template literal concat
+        alert(`Tu nombre es ${name} y si bien tenes ${age} años aunque pareces de ${ageAppearance}.`);
+
+        //Extra
+        if (name === 'paula') {
+            var favouriteStudent = prompt('Ingrese nombre de su alumno favorito: ');
+
+            //normal concat
+            var result = 'El alumno favorito de ' + name + ' es ' + favouriteStudent + '. ';
+            result += (favouriteStudent === 'josé luis' ? 'Gracias, lo sabía!' : 'Todo mal con vos!');
+            alert(result);
+        }
+
+        console.log('hasta la vista!');
+
+    </script>
+
+</body>
+
+</html>
