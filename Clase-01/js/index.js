@@ -3,7 +3,7 @@
 */
 
 const name = prompt('Ingrese nombre: ');
-const age = parseInt(prompt('Ingrese edad: '));
+const age = Number(prompt('Ingrese edad: '));
 const ageAppearance = age - 2;
 
 //template literal concat
