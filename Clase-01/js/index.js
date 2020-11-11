@@ -7,7 +7,7 @@ const age = parseInt(prompt('Ingrese edad: '));
 const ageAppearance = age - 2;
 
 //template literal concat
-alert(`Tu nombre es ${name} y si bien tenes ${age} años aunque pareces de ${ageAppearance}.`);
+alert(`Tu nombre es ${name} y si bien tenes ${age} años aunque aparentas de ${ageAppearance}.`);
 
 //Extra
 if (name === 'paula') {
