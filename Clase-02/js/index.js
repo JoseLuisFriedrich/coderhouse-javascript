@@ -2,21 +2,20 @@
   José Luis Friedrich
 */
 
-const name = prompt('Ingrese nombre\n33\nn: ');
-const age = Number(prompt('Ingrese edad: '));
-const ageAppearance = age - 2;
+const number = Number(prompt('Ingrese un número: '));
 
-//template literal concat
-alert(`Tu nombre es ${name} y si bien tenes ${age} años aunque aparentas de ${ageAppearance}.`);
+const isPositive = number > 0;
+console.log(`el nro ${number} ${isPositive ? 'es positivo' : 'es negativo'}`);
 
-//Extra
-if (name === 'paula') {
-  const favouriteStudent = prompt('Ingrese nombre de su alumno favorito: ');
-
-  //normal concat
-  let result = 'El alumno favorito de ' + name + ' es ' + favouriteStudent + '. ';
-  result += favouriteStudent === 'josé luis' ? 'Gracias, lo sabía!' : 'Todo mal con vos!';
-  alert(result);
+const isMillon = number >= 1000000;
+if (isMillon) {
+  console.log('si ingresaste el saldo de tu cuenta bancaria, sos millonari@');
 }
 
-console.log('hasta la vista!');
+if (number > 1000) {
+  alert('mayor a mil');
+} else if (number > 10 && number < 50) {
+  alert('espero no hayas ingresando el saldo de tu cuenta bancaria...');
+} else {
+  console.log('ninguna de las anteriores condiciones');
+}
