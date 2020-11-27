@@ -1,12 +1,14 @@
+'use strict'
+
 /////////////////
 // Aux methods //
 /////////////////
 
 const get = (selector) => document.querySelector(selector)
 const getAll = (selector) => document.querySelectorAll(selector) || []
-const guid = () => 'x' + ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
+const guid = () => 'x' + ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
 
-// HTML to Element
+// HTML string to Element
 const element = (element) => {
   dummy = document.createElement('template')
   dummy.innerHTML = element.trim()
@@ -16,27 +18,32 @@ const element = (element) => {
 const data = {}
 
 const add = (parentId, obj) => {
-  get(parentId).innerHTML += obj.render()
+  get(parentId).innerHTML += obj.renderBasic()
   data[obj.id] = obj
 }
 
-class Header {
-  constructor() {
-    this.id = guid()
-    this.name = ''
-    this.xx = 1
-  }
+const basicRender = (id, xx, name) => `
+<article id="${id}" xx="${xx}" class="card" draggable="true" ondragstart="drag(event)" data-id="header">
+  <input type="text" oninput="handleChange('${id}', 'name', this)" value="${name}">
+</article>
+`
 
-  xxx() {
+function Header() {
+  //Props
+  this.id = guid()
+  this.name = 'Header'
+  this.xx = 1
+
+  //Drag & Drop Rules
+
+  //Methods
+  this.xxx = () => {
     this.xx++
   }
 
-  render() {
-    return `
-      <article id="${this.id}" xx="${this.xx}" class="card" draggable="true" ondragstart="drag(event)" data-id="header">
-        <input type="text" oninput="handleChange('${this.id}', 'name', this)" value="${this.name}">
-      </article>
-    `
+  //Render
+  this.renderBasic = () => {
+    return basicRender(this.id, this.xx, this.name)
   }
 }
 
