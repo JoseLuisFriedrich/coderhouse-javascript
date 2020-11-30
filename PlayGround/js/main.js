@@ -1,13 +1,5 @@
 'use strict'
 
-/////////////////
-// Aux methods //
-/////////////////
-
-const get = (selector) => document.querySelector(selector)
-const getAll = (selector) => document.querySelectorAll(selector) || []
-const guid = () => 'x' + ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
-
 // HTML string to Element
 const element = (element) => {
   dummy = document.createElement('template')
@@ -27,25 +19,6 @@ const basicRender = (id, xx, name) => `
   <input type="text" oninput="handleChange('${id}', 'name', this)" value="${name}">
 </article>
 `
-
-function Header() {
-  //Props
-  this.id = guid()
-  this.name = 'Header'
-  this.xx = 1
-
-  //Drag & Drop Rules
-
-  //Methods
-  this.xxx = () => {
-    this.xx++
-  }
-
-  //Render
-  this.renderBasic = () => {
-    return basicRender(this.id, this.xx, this.name)
-  }
-}
 
 add('#components', new Header())
 
