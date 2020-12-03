@@ -19,13 +19,8 @@ const showMessage = (text, url) => {
 }
 
 const average = (array1, array2) => {
-  const totalArray = array1.concat(array2)
-
-  let sum = 0
-  totalArray.forEach((entry) => {
-    sum += entry
-  })
-
+  const totalArray = array1.concat(array2) //[...array1, ...array2]
+  let sum = totalArray.reduce((total, current) => (total += current))
   return [totalArray, sum / totalArray.length]
 }
 

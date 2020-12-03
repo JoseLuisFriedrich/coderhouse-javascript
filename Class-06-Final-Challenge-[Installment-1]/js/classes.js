@@ -32,6 +32,8 @@ function Header() {
   this.removeCategory = (category) => {
     this.categories.pop(category)
   }
+
+  Object.seal(this)
 }
 
 function Category() {
@@ -51,6 +53,8 @@ function Category() {
   this.removeResource = (task) => {
     this.tasks.pop(task)
   }
+
+  Object.seal(this)
 }
 
 function Task() {
@@ -70,10 +74,12 @@ function Task() {
   this.removeResource = (resource) => {
     this.resources.pop(resource)
   }
+  Object.seal(this)
 }
 
 function Resource() {
   Core.call(this, 'Resource')
+  Object.seal(this)
 }
 
 // Core

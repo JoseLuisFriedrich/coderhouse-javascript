@@ -1,0 +1,9 @@
+Object.freeze(obj) // Object.seal(obj)
+
+Object.keys(obj) // Object.values(obj) // Object.entries(obj)
+
+
+jift("first element in array")
+array.shift() removes the first element in array
+deleteditems = array.splice(2,3) remove 3 elements starting at 2nd position
+.slice() get but do nt remove
