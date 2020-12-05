@@ -9,3 +9,4 @@ deleteditems = array.splice(2,3) remove 3 elements starting at 2nd position
 .slice() get but do nt remove
 .includes() -> si existe en item
 array.some((p) => {return p.color === 'color'}}) -> condicion
+for(let p in obj) console.log(p   obj[p])-> iterar propiedades
