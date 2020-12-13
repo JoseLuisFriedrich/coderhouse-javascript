@@ -1,6 +1,6 @@
 'use strict'
 
-// Factory
+// Factory Pattern
 function classFactory(type) {
   switch (type) {
     case 'Header':
@@ -16,9 +16,9 @@ function classFactory(type) {
 
 // Components
 function Header() {
-  Core.call(this, 'Header')
+  BaseComponent.call(this, 'Header')
 
-  // Drag & Drop Rules
+  // Drag & Drop Restrictions
 
   // Props
   this.categories = []
@@ -37,9 +37,9 @@ function Header() {
 }
 
 function Category() {
-  Core.call(this, 'Category')
+  BaseComponent.call(this, 'Category')
 
-  // Drag & Drop Rules
+  // Drag & Drop Restrictions
 
   // Props
   this.tasks = []
@@ -58,9 +58,9 @@ function Category() {
 }
 
 function Task() {
-  Core.call(this, 'Task')
+  BaseComponent.call(this, 'Task')
 
-  // Drag & Drop Rules
+  // Drag & Drop Restrictions
 
   // Props
   this.resources = []
@@ -78,12 +78,12 @@ function Task() {
 }
 
 function Resource() {
-  Core.call(this, 'Resource')
+  BaseComponent.call(this, 'Resource')
   Object.seal(this)
 }
 
-// Core
-function Core(name) {
+// Base Component
+function BaseComponent(name) {
   // Props
   this.id = guid()
   this.name = name.toUpperCase()
@@ -91,24 +91,21 @@ function Core(name) {
   this.startDate = new Date()
   this.endDate = new Date()
 
-  // Render
+  // Render Component
   this.renderComponent = (parentSelector) => {
     return dom({
       tag: 'article', id: this.id, text: this.name, className: 'component',
-      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-id': 'header' },
-      // childs: [
-      //   {
-      //     tag: 'h2', text: this.name,
-      //     attributes: { 'oninput': `handleChange('${this.id}', 'name', this)`, 'value': `${name}` },
-      //     style: 'width: 100%'
-      //   }
-      // ]
+      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-id': this.name.toLowerCase() },
     }, parentSelector)
+  }
 
-    // `
-    // <article id="${id}" class="component" draggable="true" ondragstart="drag(event)" data-id="header">
-    //   <input type="text" style="width: 100%" oninput="handleChange('${id}', 'name', this)" value="${name}">
-    // </article>
-    // `
+  // Render Project Component
+  this.renderProjectComponent = () => {
+    return dom({
+      tag: 'article', id: this.id, text: this.name, className: 'projectComponent',
+      childs: [
+        { tag: 'input', type: 'number', value: 1 },
+      ]
+    })
   }
 }

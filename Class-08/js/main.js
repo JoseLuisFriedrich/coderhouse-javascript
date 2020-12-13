@@ -1,15 +1,9 @@
 'use strict'
 
-// Main Tree
-const root = {}
-
-//TODO: localStorage
-
-
-// Main Process
+// Add Components
 const components = ['Header', 'Category', 'Task', 'Resource']
+components.forEach(component => addComponent(classFactory(component)).renderComponent('#components'))
 
-components.forEach(component => {
-  const obj = classFactory(component).renderComponent('#components')
-  root[obj.id] = obj
-})
+// Drag format
+get('#project').addEventListener('dragenter', dragEnter);
+get('#project').addEventListener('dragleave', dragLeave);
