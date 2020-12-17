@@ -19,20 +19,9 @@ function Header() {
   BaseComponent.call(this, 'Header')
 
   // Drag & Drop Restrictions
+  this.dragAndDropParent = 'root'
 
-  // Props
-  this.categories = []
-
-  // Add Category
-  this.addCategory = category => {
-    this.categories.push(category)
-  }
-
-  // Remove Category
-  this.removeCategory = category => {
-    this.categories.pop(category)
-  }
-
+  // Seal
   Object.seal(this)
 }
 
@@ -40,20 +29,9 @@ function Category() {
   BaseComponent.call(this, 'Category')
 
   // Drag & Drop Restrictions
+  this.dragAndDropParent = 'Header'
 
-  // Props
-  this.tasks = []
-
-  // Add Task
-  this.addResource = task => {
-    this.tasks.push(task)
-  }
-
-  // Remove Task
-  this.removeResource = task => {
-    this.tasks.pop(task)
-  }
-
+  // Seal
   Object.seal(this)
 }
 
@@ -61,24 +39,32 @@ function Task() {
   BaseComponent.call(this, 'Task')
 
   // Drag & Drop Restrictions
+  this.dragAndDropParent = 'Category'
 
-  // Props
-  this.resources = []
-
-  // Add Resource
-  this.addResource = resource => {
-    this.resources.push(resource)
-  }
-
-  // Remove Resource
-  this.removeResource = resource => {
-    this.resources.pop(resource)
-  }
+  // Seal
   Object.seal(this)
 }
 
 function Resource() {
   BaseComponent.call(this, 'Resource')
+
+  // Drag & Drop Restrictions
+  this.dragAndDropParent = 'Task'
+
+  this.renderBasicComponent = (parentSelector) => {
+    return dom({
+      tag: 'article', id: this.id, text: this.name, className: 'component',
+      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent },
+      childs: [
+        {
+          tag: 'input', type: 'text', style: 'width: 100%',
+          attributes: { 'placeholder': 'price per hour' }
+        }
+      ]
+    }, parentSelector)
+  }
+
+  // Seal
   Object.seal(this)
 }
 
@@ -91,11 +77,24 @@ function BaseComponent(name) {
   this.startDate = new Date()
   this.endDate = new Date()
 
-  // Render Component
+  // Childs
+  this.childs = []
+
+  // Add Child
+  this.addChild = component => {
+    this.childs.push(component)
+  }
+
+  // Remove Child
+  this.removeChild = component => {
+    this.childs.pop(component)
+  }
+
+  // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
     return dom({
       tag: 'article', id: this.id, text: this.name, className: 'component',
-      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-id': this.name.toLowerCase() },
+      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent.toLowerCase() },
     }, parentSelector)
   }
 
