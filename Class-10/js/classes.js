@@ -15,46 +15,35 @@ function classFactory(type) {
 }
 
 // Components
+
 function Header() {
   BaseComponent.call(this, 'Header')
-
-  // Drag & Drop Restrictions
-  this.dragAndDropParent = 'root'
-
-  // Seal
+  this.dragAndDropParent = 'Root'
   Object.seal(this)
 }
 
 function Category() {
   BaseComponent.call(this, 'Category')
-
-  // Drag & Drop Restrictions
   this.dragAndDropParent = 'Header'
-
-  // Seal
   Object.seal(this)
 }
 
 function Task() {
   BaseComponent.call(this, 'Task')
-
-  // Drag & Drop Restrictions
   this.dragAndDropParent = 'Category'
-
-  // Seal
   Object.seal(this)
 }
 
 function Resource() {
   BaseComponent.call(this, 'Resource')
 
-  // Drag & Drop Restrictions
   this.dragAndDropParent = 'Task'
 
+  //Custom Basic Render
   this.renderBasicComponent = (parentSelector) => {
     return dom({
       tag: 'article', id: this.id, text: this.name, className: 'component',
-      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent },
+      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent.toLowerCase() },
       childs: [
         {
           tag: 'input', type: 'text', style: 'width: 100%',
@@ -64,7 +53,6 @@ function Resource() {
     }, parentSelector)
   }
 
-  // Seal
   Object.seal(this)
 }
 
@@ -79,16 +67,12 @@ function BaseComponent(name) {
 
   // Childs
   this.childs = []
+  this.appendChild = component => this.childs.push(component)
+  this.removeChild = component => this.childs.pop(component)
 
-  // Add Child
-  this.addChild = component => {
-    this.childs.push(component)
-  }
-
-  // Remove Child
-  this.removeChild = component => {
-    this.childs.pop(component)
-  }
+  // TODO: Drag and Drop
+  this.showControls = () => { }
+  this.hideControls = () => { }
 
   // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
@@ -102,8 +86,9 @@ function BaseComponent(name) {
   this.renderProjectComponent = () => {
     return dom({
       tag: 'article', id: this.id, text: this.name, className: 'projectComponent',
+      attributes: { 'data-type': this.name.toLowerCase() },
       childs: [
-        { tag: 'input', type: 'number', value: 1 },
+        { tag: 'input', type: 'number', value: 1, style: 'width: 50px' },
       ]
     })
   }

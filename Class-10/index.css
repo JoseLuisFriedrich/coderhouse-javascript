@@ -30,8 +30,9 @@ h2 {
   margin: 0 20px;
 }
 
-.secondaryContainer.drop {
-  border: 2px dashed #fff;
+.drop {
+  border: 4px dashed green;
+  cursor: pointer;
 }
 
 .component {
@@ -47,7 +48,6 @@ h2 {
 .projectComponent {
   background: #fff;
   color: #000;
-  /* padding: 10px; */
   margin-bottom: 10px;
   border-radius: 5px;
   width: 450px;

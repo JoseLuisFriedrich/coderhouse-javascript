@@ -1,9 +1,12 @@
 'use strict'
 
-// Add Components
-const components = ['Header', 'Category', 'Task', 'Resource', 'Resource', 'Resource']
-components.forEach(component => addComponent(classFactory(component)).renderBasicComponent('#components'))
+// Add Main Components
+let resourceId = 1
 
-// Drag format
-get('#project').addEventListener('dragenter', dragEnter)
-get('#project').addEventListener('dragleave', dragLeave)
+const components = ['Header', 'Category', 'Task', 'Resource', 'Resource', 'Resource']
+components.forEach(componentName => {
+  const component = classFactory(componentName)
+  component.name = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
+
+  addComponent(component).renderBasicComponent('#components')
+})
