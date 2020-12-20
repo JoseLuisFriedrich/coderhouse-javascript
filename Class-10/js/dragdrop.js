@@ -32,10 +32,10 @@ const drag = event => {
   event.dataTransfer.setData('type', event.currentTarget.dataset.type)
 }
 
-const dragEnter = event => {
-  const component = getIfMatch(event)
-  //if (component) component.classList.add('drop')
-}
+// const dragEnter = event => {
+//   const component = getIfMatch(event)
+//   //if (component) component.classList.add('drop')
+// }
 
 //const dragLeave = event => {
 // const component = getIfMatch(event)
@@ -54,7 +54,7 @@ const drop = event => {
 
     addComponent(component, parentId)
 
-    console.log(component.parent)
+    console.log(`Added ${component.id} in parent ${parentId}`)
 
     //if (parentId === 'root') {
     event.currentTarget.appendChild(component.renderProjectComponent())

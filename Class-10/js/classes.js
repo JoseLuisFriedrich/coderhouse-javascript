@@ -63,10 +63,22 @@ function BaseComponent(name) {
   // Handlers
   const handleDuration = (e) => {
     this.duration = e.target.value
+    console.log(this.duration)
   }
 
   const handleName = (e) => {
     this.name = e.target.value
+    console.log(this.name)
+  }
+
+  const handleStartDate = (e) => {
+    this.startDate = e.target.value
+    console.log(this.startDate)
+  }
+
+  const handleEndDate = (e) => {
+    this.endDate = e.target.value
+    console.log(this.endDate)
   }
 
   // Childs
@@ -93,8 +105,8 @@ function BaseComponent(name) {
       childs: [
         { tag: 'input', type: 'text', placeholder: this.name, event: { 'type': 'input', 'function': handleName } },
         { tag: 'input', type: 'number', value: 1, style: 'width: 50px', event: { 'type': 'click', 'function': handleDuration } },
-        { tag: 'input', type: 'date', value: new Date().toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'click', 'function': handleDuration } },
-        { tag: 'input', type: 'date', value: new Date().toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'click', 'function': handleDuration } },
+        { tag: 'input', type: 'date', value: new Date().toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleStartDate } },
+        { tag: 'input', type: 'date', value: new Date().toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleEndDate } },
       ]
     })
   }

@@ -17,8 +17,7 @@ const addComponent = (component, parentId) => {
   component.parent = all[parentId]
   all[component.id] = component
 
-  //console.log(tree)
-  //TODO: save changes in localStorage
+  localStorage.setItem('data', JSON.stringify(all))
   return component
 }
 
@@ -27,10 +26,9 @@ const getComponent = (componentId) => {
   //TODO: treesearch
 }
 
-//TODO: load Storage
-
-
 const clearStorage = () => localStorage.clear()
+
+//TODO: Read localStorage and load
 
 // Attach Events
 get('#clearStorage').addEventListener('click', clearStorage)
