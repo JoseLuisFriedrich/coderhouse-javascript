@@ -5,18 +5,20 @@
 ///////////////
 
 const all = {}
+// const tree = []
 
-const addComponent = (component, parentId = 'root') => {
-  // if (parentId == 'root') {
+const addComponent = (component, parentId) => {
+  // if (parentId === 'root') {
   //   tree.push(component)
   // } else {
-  //   all[component.id].push(component)
+  //   all[parentId].parent = 
   // }
 
+  component.parent = all[parentId]
   all[component.id] = component
 
+  //console.log(tree)
   //TODO: save changes in localStorage
-
   return component
 }
 
@@ -24,7 +26,6 @@ const getComponent = (componentId) => {
   return all[componentId]
   //TODO: treesearch
 }
-
 
 //TODO: load Storage
 

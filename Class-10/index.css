@@ -31,7 +31,7 @@ h2 {
 }
 
 .drop {
-  border: 4px dashed green;
+  border: 4px dashed#fff;
   cursor: pointer;
 }
 
@@ -46,10 +46,53 @@ h2 {
 }
 
 .projectComponent {
-  background: #fff;
+  display: flex;
+  align-items: center;
   color: #000;
-  margin-bottom: 10px;
   border-radius: 5px;
-  width: 450px;
-  height: 20px;
+  width: 100%;
+}
+
+.projectComponent input[type='text'] {
+  margin-left: 20px;
+  width: 200px;
+}
+
+.header {
+  margin-top: 20px;
+}
+
+.category {
+  justify-content: flex-end;
+}
+
+.category input[type='text'] {
+  width: 180px;
+}
+
+.task {
+  justify-content: flex-end;
+}
+
+.task input[type='text'] {
+  width: 160px;
+}
+
+input[type='date']::-webkit-datetime-edit,
+input[type='date']::-webkit-inner-spin-button,
+input[type='date']::-webkit-clear-button {
+  color: #fff;
+  position: relative;
+}
+
+input[type='date']::-webkit-datetime-edit-month-field {
+  position: absolute !important;
+  color: #000;
+  left: 26px;
+}
+
+input[type='date']::-webkit-datetime-edit-day-field {
+  position: absolute !important;
+  color: #000;
+  left: 4px;
 }

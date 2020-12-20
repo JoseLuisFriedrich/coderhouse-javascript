@@ -4,37 +4,64 @@
 // Drag & Drop //
 /////////////////
 
-let dropParentType = null //'coz I can't read dataTransfer on dragEnter event
+let parentType = null //'coz I can't read dataTransfer on dragEnter event
+let mainComponent = null //when I drop on any control of the component
+
+const getIfMatch = (event) => {
+  let component = event.target
+
+  while (component.dataset.type === undefined) {
+    component = event.target.parentElement
+  }
+
+  if (component.dataset.type === parentType) {
+    mainComponent = component
+    component.classList.add('drop')
+    return component
+  } else {
+    mainComponent.classList.remove('drop')
+  }
+
+  component.classList.remove('drop')
+
+  return null
+}
 
 const drag = event => {
-  dropParentType = event.currentTarget.dataset.parent
-  event.dataTransfer.setData('id', event.currentTarget.id)
+  parentType = event.currentTarget.dataset.parent
+  event.dataTransfer.setData('type', event.currentTarget.dataset.type)
 }
 
 const dragEnter = event => {
-  if (event.target.dataset.type == dropParentType) {
-    event.target.classList.add('drop')
-  }
+  const component = getIfMatch(event)
+  //if (component) component.classList.add('drop')
 }
 
-const dragLeave = event => {
-  if (event.target.dataset.type == dropParentType) {
-    event.target.classList.remove('drop')
-  }
-}
+//const dragLeave = event => {
+// const component = getIfMatch(event)
+// if (component) component.classList.remove('drop')
+//}
 
 const allowDrop = event => event.preventDefault()
 
 const drop = event => {
-  if (event.target.dataset.type == dropParentType) {
-    event.target.classList.remove('drop')
+  const dropComponent = getIfMatch(event)
+  if (dropComponent) {
+    dropComponent.classList.remove('drop')
 
-    const component = getComponent(event.dataTransfer.getData('id'))
-    console.log('p', event.target.id, 'c', component.id)
+    const component = classFactory(event.dataTransfer.getData('type'))
+    const parentId = mainComponent.id
+
+    addComponent(component, parentId)
+
+    console.log(component.parent)
+
+    //if (parentId === 'root') {
     event.currentTarget.appendChild(component.renderProjectComponent())
+    //}
   }
 }
 
 // Attach Listeners to show dotted on target
 get('#root').addEventListener('dragenter', dragEnter)
-get('#root').addEventListener('dragleave', dragLeave)
+//get('#root').addEventListener('dragleave', dragLeave)
