@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+
+<head>
+  <title>José Luis Friedrich</title>
+
+  <!-- Meta -->
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+  <!-- Styles -->
+  <link rel='stylesheet' href='index.css'>
+
+  <!-- Scripts -->
+  <script defer src='js/classes.js'></script>
+  <script defer src='js/helper.js'></script>
+  <script defer src='js/data.js'></script>
+  <script defer src='js/dragdrop.js'></script>
+  <script defer src='js/main.js'></script>
+</head>
+
+<body>
+  <!-- Main -->
+  <main class='mainContainer'>
+    <div class='secondaryContainer' id='components'>
+      <h2>Components</h2>
+    </div>
+
+    <div class='secondaryContainer' id='root' ondrop='drop(event)' ondragover='allowDrop(event)' data-type='root'>
+      <h2>Project</h2>
+    </div>
+  </main>
+
+  <!-- Intructions -->
+  <div id='help'>
+    <h1>
+      <br>Drag&Drop:<br>
+      <br>1) Add Headers
+      <br>2) Add Categories on any Header
+      <br>3) Add Tasks on any Categories
+      <br>4) Add Resources on Tasks (N/A yet)
+      <br><br>Estructura, drag and drop y storage funcionando, falta darle la funcionalidad todavía
+      <br><br><button id="clearStorage">clear storage</button>
+    </h1>
+  </div>
+
+</body>
+
+</html>

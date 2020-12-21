@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 100%;
+  font-family: Helvetica;
+}
+
+html {
+  background: #222;
+  color: #fff;
+}
+
+h2 {
+  background: green;
+  margin: -10px -10px 10px;
+  padding: 4px 10px;
+  font-size: 20px;
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.secondaryContainer {
+  padding: 10px;
+  background: #2c2c2c;
+  border: 2px solid #2c2c2c;
+  margin: 0 20px;
+}
+
+.drop {
+  border: 4px dashed#fff;
+  cursor: pointer;
+}
+
+.component {
+  background: #3f4447;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  width: 150px;
+  height: 60px;
+  cursor: grab;
+}
+
+.projectComponent {
+  display: flex;
+  align-items: center;
+  color: #000;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.projectComponent input[type='text'] {
+  margin-left: 20px;
+  width: 200px;
+}
+
+.header {
+  margin-top: 20px;
+}
+
+.category {
+  justify-content: flex-end;
+}
+
+.category input[type='text'] {
+  width: 180px;
+}
+
+.task {
+  justify-content: flex-end;
+}
+
+.task input[type='text'] {
+  width: 160px;
+}
+
+input[type='date']::-webkit-datetime-edit,
+input[type='date']::-webkit-inner-spin-button,
+input[type='date']::-webkit-clear-button {
+  color: #fff;
+  position: relative;
+}
+
+input[type='date']::-webkit-datetime-edit-month-field {
+  position: absolute !important;
+  color: #000;
+  left: 26px;
+}
+
+input[type='date']::-webkit-datetime-edit-day-field {
+  position: absolute !important;
+  color: #000;
+  left: 4px;
+}
