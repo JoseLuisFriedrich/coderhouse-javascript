@@ -38,7 +38,7 @@ function Resource() {
     return dom({
       tag: 'div', id: this.id, text: this.name, className: 'component',
       attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent.toLowerCase() },
-      childs: [
+      children: [
         {
           tag: 'input', placeholder: 'price per hour', type: 'text', style: 'width: 100%',
         }
@@ -55,7 +55,6 @@ function BaseComponent(name) {
   this.id = guid()
   this.name = name.toUpperCase()
   this.type = name
-  this.parent = null
   this.duration = 0
   this.startDate = new Date()
   this.endDate = new Date()
@@ -81,13 +80,32 @@ function BaseComponent(name) {
     console.log(this.endDate)
   }
 
-  // Childs
-  // this.childs = []
-  // this.appendChild = component => {
-  //   this.childs.push(component)
-  //   console.log(component)
-  // }
-  // this.removeChild = component => this.childs.pop(component)
+  // Children
+  this.children = []
+
+  this.appendChild = component => {
+    this.children.push(component)
+    return component
+  }
+
+  this.hasChildren = () => {
+    return this.children.length > 0;
+  }
+
+  this.last = (recursive = false) => {
+    if (!this.hasChildren()) return null
+
+    let lastChild = this.children[this.children.length - 1]
+
+    if (recursive) {
+      while (lastChild.hasChildren()) {
+        lastChild = lastChild.last(recursive)
+      }
+    }
+
+    return lastChild
+  }
+  // this.removeChild = component => this.children.pop(component)
 
   // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
@@ -99,14 +117,18 @@ function BaseComponent(name) {
 
   // Render Project Component
   this.renderProjectComponent = () => {
+    let today = new Date()
+    let tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
     return dom({
       tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
       attributes: { 'data-type': this.type },
-      childs: [
+      children: [
         { tag: 'input', type: 'text', placeholder: this.name, event: { 'type': 'input', 'function': handleName } },
         { tag: 'input', type: 'number', value: 1, style: 'width: 50px', event: { 'type': 'click', 'function': handleDuration } },
-        { tag: 'input', type: 'date', value: new Date().toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleStartDate } },
-        { tag: 'input', type: 'date', value: new Date().toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleEndDate } },
+        { tag: 'input', type: 'date', value: today.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleStartDate } },
+        { tag: 'input', type: 'date', value: tomorrow.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleEndDate } },
       ]
     })
   }

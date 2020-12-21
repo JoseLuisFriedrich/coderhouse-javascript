@@ -20,9 +20,9 @@ const dom = (data, parent) => {
   if (data.event) element.addEventListener(data.event.type, data.event.function)
   Object.keys(data.attributes || []).forEach(attr => element.setAttribute(attr, data.attributes[attr]))
 
-  //Childs
-  if (data.childs) {
-    data.childs.forEach(c => dom(c, element))
+  //Children
+  if (data.children) {
+    data.children.forEach(child => dom(child, element))
   }
 
   //Parent

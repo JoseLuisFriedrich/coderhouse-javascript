@@ -54,12 +54,6 @@ const drop = event => {
     const parentId = mainComponent.id
 
     addComponent(component, parentId)
-
-    console.log(`Added ${component.id} in parent ${parentId}`)
-
-    //if (parentId === 'root') {
-    event.currentTarget.appendChild(component.renderProjectComponent())
-    //}
   }
 }
 
