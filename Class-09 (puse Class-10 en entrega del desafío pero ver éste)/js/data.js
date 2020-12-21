@@ -27,7 +27,7 @@ const addComponent = (component, parentId) => {
   // console.log(`Added ${component.id} in parent ${parentId}`)
   // console.log(tree)
 
-  saveTree
+  saveTree()
 
   return component
 }
