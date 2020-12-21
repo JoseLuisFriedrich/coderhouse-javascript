@@ -32,10 +32,10 @@ const drag = event => {
   event.dataTransfer.setData('type', event.currentTarget.dataset.type)
 }
 
-// const dragEnter = event => {
-//   const component = getIfMatch(event)
-//   //if (component) component.classList.add('drop')
-// }
+const dragEnter = event => {
+  const component = getIfMatch(event)
+  //if (component) component.classList.add('drop')
+}
 
 //const dragLeave = event => {
 // const component = getIfMatch(event)
@@ -63,5 +63,5 @@ const drop = event => {
 }
 
 // Attach Listeners to show dotted on target
-//get('#root').addEventListener('dragenter', dragEnter)
+get('#root').addEventListener('dragenter', dragEnter)
 //get('#root').addEventListener('dragleave', dragLeave)
