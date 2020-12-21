@@ -33,7 +33,8 @@ const drag = event => {
 }
 
 const dragEnter = event => {
-  const component = getIfMatch(event)
+  getIfMatch(event)
+  //const component = 
   //if (component) component.classList.add('drop')
 }
 
