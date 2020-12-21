@@ -25,17 +25,37 @@ const addComponent = (component, parentId) => {
   }
 
   // console.log(`Added ${component.id} in parent ${parentId}`)
-  console.log(tree)
+  // console.log(tree)
 
-  //Storage
-  localStorage.setItem('data', JSON.stringify(all))
+  saveTree
 
   return component
 }
 
-const clearStorage = () => localStorage.clear()
+const saveTree = () => {
+  //Storage
+  localStorage.setItem('treeData', JSON.stringify(tree))
+}
 
-// Attach Events
-get('#clearStorage').addEventListener('click', clearStorage)
+const loadFromStorage = () => {
+  // Attach Events
+  get('#clearStorage').addEventListener('click', clearStorage)
 
-//TODO: Read localStorage and load
+  // Load from Storage
+  const reloadComponents = (dataArray, parentId) => {
+    dataArray.forEach(componentData => {
+      const component = classFactory(componentData.type)
+      component.createFrom(componentData)
+
+      addComponent(component, parentId)
+      reloadComponents(componentData.children, component.id)
+    })
+  }
+
+  reloadComponents(JSON.parse(localStorage.getItem('treeData') || '[]'), 'root')
+}
+
+const clearStorage = () => {
+  localStorage.clear()
+  location.reload()
+}

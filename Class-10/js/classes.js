@@ -58,30 +58,51 @@ function BaseComponent(name) {
   this.duration = 0
   this.startDate = new Date()
   this.endDate = new Date()
+  this.dragAndDropParent = ''
+  this.children = []
+
+  // Storage
+  this.createFrom = (data) => {
+    this.id = data.id
+    this.name = data.name
+    this.type = data.type
+    this.duration = data.duration
+    this.startDate = data.startDate
+    this.endDate = data.endDate
+    this.dragAndDropParent = data.dragAndDropParent
+    // data.children.forEach(c => {
+    //   const child = classFactory(c.type)
+    //   child.createFrom(c)
+    //   this.children.push(child)
+    // })
+  }
 
   // Handlers
-  const handleDuration = (e) => {
+  this.handleDuration = (e) => {
     this.duration = e.target.value
     console.log(this.duration)
+    saveTree()
   }
 
-  const handleName = (e) => {
+  this.handleName = (e) => {
     this.name = e.target.value
     console.log(this.name)
+    saveTree()
   }
 
-  const handleStartDate = (e) => {
+  this.handleStartDate = (e) => {
     this.startDate = e.target.value
     console.log(this.startDate)
+    saveTree()
   }
 
-  const handleEndDate = (e) => {
+  this.handleEndDate = (e) => {
     this.endDate = e.target.value
     console.log(this.endDate)
+    saveTree()
   }
 
   // Children
-  this.children = []
 
   this.appendChild = component => {
     this.children.push(component)
@@ -125,10 +146,10 @@ function BaseComponent(name) {
       tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
       attributes: { 'data-type': this.type },
       children: [
-        { tag: 'input', type: 'text', placeholder: this.name, event: { 'type': 'input', 'function': handleName } },
-        { tag: 'input', type: 'number', value: 1, style: 'width: 50px', event: { 'type': 'click', 'function': handleDuration } },
-        { tag: 'input', type: 'date', value: today.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleStartDate } },
-        { tag: 'input', type: 'date', value: tomorrow.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': handleEndDate } },
+        { tag: 'input', type: 'text', placeholder: this.name, event: { 'type': 'input', 'function': this.handleName } },
+        { tag: 'input', type: 'number', value: 1, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
+        { tag: 'input', type: 'date', value: today.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
+        { tag: 'input', type: 'date', value: tomorrow.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
       ]
     })
   }

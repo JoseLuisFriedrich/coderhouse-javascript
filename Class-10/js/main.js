@@ -10,3 +10,5 @@ components.forEach(componentName => {
   component.name = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
   component.renderBasicComponent('#components')
 })
+
+loadFromStorage()
