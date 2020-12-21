@@ -63,5 +63,5 @@ const drop = event => {
 }
 
 // Attach Listeners to show dotted on target
-get('#root').addEventListener('dragenter', dragEnter)
+//get('#root').addEventListener('dragenter', dragEnter)
 //get('#root').addEventListener('dragleave', dragLeave)
