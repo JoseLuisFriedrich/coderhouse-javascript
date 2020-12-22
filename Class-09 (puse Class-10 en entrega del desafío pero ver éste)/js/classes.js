@@ -36,7 +36,7 @@ function Resource() {
   //Custom Basic Render
   this.renderBasicComponent = (parentSelector) => {
     return dom({
-      tag: 'div', id: this.id, text: this.name, className: 'component',
+      tag: 'div', id: this.id, text: this.text, className: 'component',
       attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent.toLowerCase() },
       children: [
         {
@@ -50,60 +50,80 @@ function Resource() {
 }
 
 // Base Component
-function BaseComponent(name) {
+function BaseComponent(text) {
   // Props
   this.id = guid()
-  this.name = name.toUpperCase()
-  this.type = name
-  this.duration = 0
-  this.startDate = new Date()
-  this.endDate = new Date()
-  this.dragAndDropParent = ''
+  this.text = null //text.toUpperCase()
+  this.type = text
+  this.duration = 1
+  this.startDate = date()
+  this.endDate = date(1)
+  this.dragAndDropParent = null
   this.children = []
 
   // Storage
   this.createFrom = (data) => {
     this.id = data.id
-    this.name = data.name
+    this.text = data.text
     this.type = data.type
     this.duration = data.duration
     this.startDate = data.startDate
     this.endDate = data.endDate
     this.dragAndDropParent = data.dragAndDropParent
-    // data.children.forEach(c => {
-    //   const child = classFactory(c.type)
-    //   child.createFrom(c)
-    //   this.children.push(child)
-    // })
+  }
+
+  // Setters
+  this.setText = (text) => {
+    this.text = text
+    saveTree()
+  }
+
+  this.setDuration = (duration, updateDom = true) => {
+    if (duration == -1) {
+      this.setDuration(0, true)
+      return
+    }
+    if (duration == 100) {
+      this.setDuration(99, true)
+      return
+    }
+
+    this.duration = duration
+    this.setEndDate(date(this.duration, this.startDate))
+    if (updateDom) get(`#${this.id}_duration`).value = this.duration
+    saveTree()
+  }
+
+  this.setStartDate = (date, updateDom = true) => {
+    this.startDate = date
+    if (updateDom) get(`#${this.id}_startDate`).value = this.startDate
+    saveTree()
+  }
+
+  this.setEndDate = (date, updateDom = true) => {
+    this.endDate = date
+    if (updateDom) get(`#${this.id}_endDate`).value = this.endDate
+    saveTree()
   }
 
   // Handlers
-  this.handleDuration = (e) => {
-    this.duration = e.target.value
-    console.log(this.duration)
-    saveTree()
+  this.handleText = (e) => {
+    this.setText(e.target.value)
   }
 
-  this.handleName = (e) => {
-    this.name = e.target.value
-    console.log(this.name)
-    saveTree()
+  this.handleDuration = (e) => {
+    this.setDuration(e.target.value, false)
   }
 
   this.handleStartDate = (e) => {
-    this.startDate = e.target.value
-    console.log(this.startDate)
-    saveTree()
+    this.setStartDate(e.target.value, false)
   }
 
   this.handleEndDate = (e) => {
-    this.endDate = e.target.value
-    console.log(this.endDate)
-    saveTree()
+    this.setEndDate(e.target.value, false)
   }
 
   // Children
-
   this.appendChild = component => {
     this.children.push(component)
     return component
@@ -113,44 +133,41 @@ function BaseComponent(name) {
     return this.children.length > 0;
   }
 
-  this.last = (recursive = false) => {
+  this.lastChild = (recursive = false) => {
     if (!this.hasChildren()) return null
 
-    let lastChild = this.children[this.children.length - 1]
+    let last = this.children[this.children.length - 1]
 
     if (recursive) {
-      while (lastChild.hasChildren()) {
-        lastChild = lastChild.last(recursive)
+      while (last.hasChildren()) {
+        last = last.lastChild(recursive)
       }
     }
 
-    return lastChild
+    return last
   }
-  // this.removeChild = component => this.children.pop(component)
 
   // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
-    return dom({
-      tag: 'div', text: this.name, className: 'component',
-      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.dragAndDropParent },
-    }, parentSelector)
+    return dom(
+      {
+        tag: 'div', text: this.text, className: 'component',
+        attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.dragAndDropParent },
+      }, parentSelector)
   }
 
   // Render Project Component
   this.renderProjectComponent = () => {
-    let today = new Date()
-    let tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-
-    return dom({
-      tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
-      attributes: { 'data-type': this.type },
-      children: [
-        { tag: 'input', type: 'text', placeholder: this.name, event: { 'type': 'input', 'function': this.handleName } },
-        { tag: 'input', type: 'number', value: 1, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
-        { tag: 'input', type: 'date', value: today.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
-        { tag: 'input', type: 'date', value: tomorrow.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
-      ]
-    })
+    return dom(
+      {
+        tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
+        attributes: { 'data-type': this.type },
+        children: [
+          { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, event: { 'type': 'input', 'function': this.handleText } },
+          { id: `${this.id}_duration`, tag: 'input', type: 'number', value: this.duration, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
+          { id: `${this.id}_startDate`, tag: 'input', type: 'date', value: this.startDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
+          { id: `${this.id}_endDate`, tag: 'input', type: 'date', value: this.endDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
+        ]
+      })
   }
 }

@@ -7,8 +7,13 @@ const components = ['Header', 'Category', 'Task', 'Resource', 'Resource', 'Resou
 
 components.forEach(componentName => {
   const component = classFactory(componentName)
-  component.name = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
+  component.text = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
   component.renderBasicComponent('#components')
 })
 
 loadFromStorage()
+
+// console.log(date(0, '2020-12-22'))
+// console.log(date(1, '2020-12-22'))
+// console.log(date(2, '2020-12-22'))
+// console.log(date(3, '2020-12-22'))
