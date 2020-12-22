@@ -74,18 +74,25 @@ function BaseComponent(text) {
 
   // Setters
   this.setDuration = (duration, updateDom = true) => {
-    let delta = duration - this.duration
+    if (duration == -1) {
+      this.setDuration(0, true)
+      return
+    }
+
     this.duration = duration
-    console.log(this.id, this.duration, delta, date(0, this.startDate))
+    this.setEndDate(date(this.duration, this.startDate))
+    if (updateDom) get(`#${this.id}_duration`).value = this.duration
     saveTree()
   }
 
-  this.setStartDate = (date) => {
-
+  this.setStartDate = (date, updateDom = true) => {
+    this.startDate = date
+    if (updateDom) get(`#${this.id}_startDate`).value = this.startDate
   }
 
-  this.setEndDate = (date) => {
-
+  this.setEndDate = (date, updateDom = true) => {
+    this.endDate = date
+    if (updateDom) get(`#${this.id}_endDate`).value = this.endDate
   }
 
   // Handlers
@@ -139,23 +146,25 @@ function BaseComponent(text) {
 
   // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
-    return dom({
-      tag: 'div', text: this.text, className: 'component',
-      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.dragAndDropParent },
-    }, parentSelector)
+    return dom(
+      {
+        tag: 'div', text: this.text, className: 'component',
+        attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.dragAndDropParent },
+      }, parentSelector)
   }
 
   // Render Project Component
   this.renderProjectComponent = () => {
-    return dom({
-      tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
-      attributes: { 'data-type': this.type },
-      children: [
-        { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, event: { 'type': 'input', 'function': this.handleText } },
-        { id: `${this.id}_duration`, tag: 'input', type: 'number', value: this.duration, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
-        { id: `${this.id}_startDate`, tag: 'input', type: 'date', value: this.startDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
-        { id: `${this.id}_endDate`, tag: 'input', type: 'date', value: this.endDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
-      ]
-    })
+    return dom(
+      {
+        tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
+        attributes: { 'data-type': this.type },
+        children: [
+          { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, event: { 'type': 'input', 'function': this.handleText } },
+          { id: `${this.id}_duration`, tag: 'input', type: 'number', value: this.duration, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
+          { id: `${this.id}_startDate`, tag: 'input', type: 'date', value: this.startDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
+          { id: `${this.id}_endDate`, tag: 'input', type: 'date', value: this.endDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
+        ]
+      })
   }
 }

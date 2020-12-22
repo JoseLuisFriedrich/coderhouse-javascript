@@ -49,10 +49,12 @@ const guid = () => 'c' + ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, c =>
 // Date
 const date = (days = 0, date = new Date()) => {
   if (typeof date === 'string') {
-    const dateSplit = date.split('T')[0].split('-')
-    date = new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2])
+    date = new Date(date.substr(0, 10))
   }
 
-  date.setDate(date.getDate() + days)
-  return date.toISOString().split('T')[0]
+  date.setDate(date.getDate() + Number(days))
+  return date.toISOString().substr(0, 10)
 }
+
+
+// Date.prototype.addDays = function (d) { return new Date(this.valueOf() + (24 * 60 * 60) * d); };
