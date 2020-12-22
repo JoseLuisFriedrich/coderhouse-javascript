@@ -40,3 +40,14 @@ const getAll = selector => document.querySelectorAll(selector)
 
 // Guid
 const guid = () => 'c' + ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, c => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
+
+// Date
+const date = (days = 0, date = new Date()) => {
+  if (typeof date === 'string') {
+    const dateSplit = date.split('T')[0].split('-')
+    date = new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2])
+  }
+
+  date.setDate(date.getDate() + days)
+  return date.toISOString().split('T')[0]
+}

@@ -55,10 +55,10 @@ function BaseComponent(name) {
   this.id = guid()
   this.name = name.toUpperCase()
   this.type = name
-  this.duration = 0
-  this.startDate = new Date()
-  this.endDate = new Date()
-  this.dragAndDropParent = ''
+  this.duration = 1
+  this.startDate = date()
+  this.endDate = date(1)
+  this.dragAndDropParent = null
   this.children = []
 
   // Storage
@@ -70,17 +70,13 @@ function BaseComponent(name) {
     this.startDate = data.startDate
     this.endDate = data.endDate
     this.dragAndDropParent = data.dragAndDropParent
-    // data.children.forEach(c => {
-    //   const child = classFactory(c.type)
-    //   child.createFrom(c)
-    //   this.children.push(child)
-    // })
   }
 
   // Handlers
   this.handleDuration = (e) => {
+    let delta = e.target.value - this.duration
     this.duration = e.target.value
-    console.log(this.duration)
+    console.log(this.duration, delta, date(0, this.startDate))
     saveTree()
   }
 
@@ -138,18 +134,14 @@ function BaseComponent(name) {
 
   // Render Project Component
   this.renderProjectComponent = () => {
-    let today = new Date()
-    let tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-
     return dom({
       tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
       attributes: { 'data-type': this.type },
       children: [
-        { tag: 'input', type: 'text', placeholder: this.name, event: { 'type': 'input', 'function': this.handleName } },
-        { tag: 'input', type: 'number', value: 1, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
-        { tag: 'input', type: 'date', value: today.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
-        { tag: 'input', type: 'date', value: tomorrow.toISOString().split('T')[0], style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
+        { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.name, placeholder: this.type, event: { 'type': 'input', 'function': this.handleName } },
+        { id: `${this.id}_duration`, tag: 'input', type: 'number', value: this.duration, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
+        { id: `${this.id}_startDate`, tag: 'input', type: 'date', value: this.startDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
+        { id: `${this.id}_endDate`, tag: 'input', type: 'date', value: this.endDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
       ]
     })
   }
