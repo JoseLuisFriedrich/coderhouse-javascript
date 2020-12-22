@@ -7,7 +7,7 @@ const components = ['Header', 'Category', 'Task', 'Resource', 'Resource', 'Resou
 
 components.forEach(componentName => {
   const component = classFactory(componentName)
-  component.name = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
+  component.text = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
   component.renderBasicComponent('#components')
 })
 

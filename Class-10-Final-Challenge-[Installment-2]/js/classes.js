@@ -36,7 +36,7 @@ function Resource() {
   //Custom Basic Render
   this.renderBasicComponent = (parentSelector) => {
     return dom({
-      tag: 'div', id: this.id, text: this.name, className: 'component',
+      tag: 'div', id: this.id, text: this.text, className: 'component',
       attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent.toLowerCase() },
       children: [
         {
@@ -50,11 +50,11 @@ function Resource() {
 }
 
 // Base Component
-function BaseComponent(name) {
+function BaseComponent(text) {
   // Props
   this.id = guid()
-  this.name = name.toUpperCase()
-  this.type = name
+  this.text = null //text.toUpperCase()
+  this.type = text
   this.duration = 1
   this.startDate = date()
   this.endDate = date(1)
@@ -64,7 +64,7 @@ function BaseComponent(name) {
   // Storage
   this.createFrom = (data) => {
     this.id = data.id
-    this.name = data.name
+    this.text = data.text
     this.type = data.type
     this.duration = data.duration
     this.startDate = data.startDate
@@ -72,17 +72,30 @@ function BaseComponent(name) {
     this.dragAndDropParent = data.dragAndDropParent
   }
 
-  // Handlers
-  this.handleDuration = (e) => {
-    let delta = e.target.value - this.duration
-    this.duration = e.target.value
-    console.log(this.duration, delta, date(0, this.startDate))
+  // Setters
+  this.setDuration = (duration, updateDom = true) => {
+    let delta = duration - this.duration
+    this.duration = duration
+    console.log(this.id, this.duration, delta, date(0, this.startDate))
     saveTree()
   }
 
-  this.handleName = (e) => {
-    this.name = e.target.value
-    console.log(this.name)
+  this.setStartDate = (date) => {
+
+  }
+
+  this.setEndDate = (date) => {
+
+  }
+
+  // Handlers
+  this.handleDuration = (e) => {
+    this.setDuration(e.target.value, false)
+  }
+
+  this.handleText = (e) => {
+    this.text = e.target.value
+    console.log(this.text)
     saveTree()
   }
 
@@ -127,7 +140,7 @@ function BaseComponent(name) {
   // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
     return dom({
-      tag: 'div', text: this.name, className: 'component',
+      tag: 'div', text: this.text, className: 'component',
       attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.dragAndDropParent },
     }, parentSelector)
   }
@@ -138,7 +151,7 @@ function BaseComponent(name) {
       tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
       attributes: { 'data-type': this.type },
       children: [
-        { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.name, placeholder: this.type, event: { 'type': 'input', 'function': this.handleName } },
+        { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, event: { 'type': 'input', 'function': this.handleText } },
         { id: `${this.id}_duration`, tag: 'input', type: 'number', value: this.duration, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
         { id: `${this.id}_startDate`, tag: 'input', type: 'date', value: this.startDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
         { id: `${this.id}_endDate`, tag: 'input', type: 'date', value: this.endDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
