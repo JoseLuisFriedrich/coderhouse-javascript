@@ -17,7 +17,7 @@ const addComponent = (component, parentId) => {
     get('#root').appendChild(component.renderProjectComponent())
   } else {
     const parent = all.filter(c => c.id === parentId)[0]
-    const parentLastChild = parent.last(true)
+    const parentLastChild = parent.lastChild(true)
 
     const domParent = get(parentLastChild ? `#${parentLastChild.id}` : `#${parentId}`);
     domParent.parentNode.insertBefore(component.renderProjectComponent(), domParent.nextSibling);

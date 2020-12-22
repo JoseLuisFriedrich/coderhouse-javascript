@@ -73,9 +73,18 @@ function BaseComponent(text) {
   }
 
   // Setters
+  this.setText = (text) => {
+    this.text = text
+    saveTree()
+  }
+
   this.setDuration = (duration, updateDom = true) => {
     if (duration == -1) {
       this.setDuration(0, true)
+      return
+    }
+    if (duration == 100) {
+      this.setDuration(99, true)
       return
     }
 
@@ -88,38 +97,33 @@ function BaseComponent(text) {
   this.setStartDate = (date, updateDom = true) => {
     this.startDate = date
     if (updateDom) get(`#${this.id}_startDate`).value = this.startDate
+    saveTree()
   }
 
   this.setEndDate = (date, updateDom = true) => {
     this.endDate = date
     if (updateDom) get(`#${this.id}_endDate`).value = this.endDate
+    saveTree()
   }
 
   // Handlers
+  this.handleText = (e) => {
+    this.setText(e.target.value)
+  }
+
   this.handleDuration = (e) => {
     this.setDuration(e.target.value, false)
   }
 
-  this.handleText = (e) => {
-    this.text = e.target.value
-    console.log(this.text)
-    saveTree()
-  }
-
   this.handleStartDate = (e) => {
-    this.startDate = e.target.value
-    console.log(this.startDate)
-    saveTree()
+    this.setStartDate(e.target.value, false)
   }
 
   this.handleEndDate = (e) => {
-    this.endDate = e.target.value
-    console.log(this.endDate)
-    saveTree()
+    this.setEndDate(e.target.value, false)
   }
 
   // Children
-
   this.appendChild = component => {
     this.children.push(component)
     return component
@@ -129,20 +133,19 @@ function BaseComponent(text) {
     return this.children.length > 0;
   }
 
-  this.last = (recursive = false) => {
+  this.lastChild = (recursive = false) => {
     if (!this.hasChildren()) return null
 
-    let lastChild = this.children[this.children.length - 1]
+    let last = this.children[this.children.length - 1]
 
     if (recursive) {
-      while (lastChild.hasChildren()) {
-        lastChild = lastChild.last(recursive)
+      while (last.hasChildren()) {
+        last = last.lastChild(recursive)
       }
     }
 
-    return lastChild
+    return last
   }
-  // this.removeChild = component => this.children.pop(component)
 
   // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
