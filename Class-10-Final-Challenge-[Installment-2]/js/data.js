@@ -4,26 +4,33 @@
 // Main Tree //
 ///////////////
 
-const all = []
+const flat = []
 const tree = []
 
 const addComponent = (component, parentId) => {
-  //Tree
   if (parentId === 'root') {
-    all.push(component)
+    // Tree
     tree.push(component)
+
+    // Flat
+    flat.push(component)
+
+    // UI
     get('#root').appendChild(component.renderProjectComponent())
   } else {
-    const parent = all.filter(c => c.id === parentId)[0]
-    const parentLast = parent.lastChild(true) || parent
-    all.splice(all.indexOf(parentLast) + 1, 0, component) //insert, in order, component in all, in order
+    // Flat
+    const parent = flat.filter(c => c.id === parentId)[0]
+    const parentLastChild = parent.lastChild(true) || parent
+    flat.splice(flat.indexOf(parentLastChild) + 1, 0, component) //insert, in order, component in flat, in order
 
     //update UI
-    const domParent = get(`#${parentLast.id}`);
+    const domParent = get(`#${parentLastChild.id}`);
     domParent.parentNode.insertBefore(component.renderProjectComponent(), domParent.nextSibling)
+
+    // Tree
     parent.appendChild(component)
   }
-  //console.log(all)
+  //console.log(flat)
 
   saveTree()
   return component

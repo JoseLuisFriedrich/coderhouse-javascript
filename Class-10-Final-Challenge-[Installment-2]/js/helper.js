@@ -35,8 +35,8 @@ const dom = (data, parent) => {
 // Selector
 const get = selector => {
   let result = document.querySelector(selector)
-  if (result === null) result = document.querySelector(`#${selector}`)
-  if (result === null) result = document.querySelector(`.${selector}`)
+  // if (result === null) result = document.querySelector(`#${selector}`)
+  // if (result === null) result = document.querySelector(`.${selector}`)
   return result
 }
 

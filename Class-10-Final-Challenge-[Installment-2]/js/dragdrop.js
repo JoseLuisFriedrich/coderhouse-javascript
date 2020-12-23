@@ -19,7 +19,8 @@ const getIfMatch = (event) => {
     component.classList.add('drop')
     return component
   } else {
-    mainComponent.classList.remove('drop')
+    if (mainComponent != null)
+      mainComponent.classList.remove('drop')
   }
 
   component.classList.remove('drop')
