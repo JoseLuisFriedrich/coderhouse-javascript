@@ -49,7 +49,7 @@ const loadFromStorage = () => {
   const reloadComponents = (dataArray, parentId) => {
     dataArray.forEach(componentData => {
       const component = classFactory(componentData.type)
-      component.createFrom(componentData)
+      component.set(componentData)
 
       addComponent(component, parentId)
       reloadComponents(componentData.children, component.id)

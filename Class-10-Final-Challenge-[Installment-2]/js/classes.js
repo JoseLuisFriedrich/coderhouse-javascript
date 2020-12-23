@@ -61,8 +61,8 @@ function BaseComponent(text) {
   this.dragAndDropParent = null
   this.children = []
 
-  // Storage
-  this.createFrom = (data) => {
+  // When I read data from storage
+  this.set = (data) => {
     this.id = data.id
     this.text = data.text
     this.type = data.type
@@ -107,20 +107,23 @@ function BaseComponent(text) {
   }
 
   // Handlers
-  this.handleText = (e) => {
-    this.setText(e.target.value)
-  }
+  this.handleChange = (e) => {
+    const value = e.target.value
 
-  this.handleDuration = (e) => {
-    this.setDuration(e.target.value, false)
-  }
-
-  this.handleStartDate = (e) => {
-    this.setStartDate(e.target.value, false)
-  }
-
-  this.handleEndDate = (e) => {
-    this.setEndDate(e.target.value, false)
+    switch (e.target.id.split('_')[1]) {
+      case 'text':
+        this.setText(value)
+        break
+      case 'duration':
+        this.setDuration(value, false)
+        break
+      case 'startDate':
+        this.setStartDate(value, false)
+        break
+      case 'endDate':
+        this.setEndDate(value, false)
+        break
+    }
   }
 
   // Children
@@ -163,10 +166,10 @@ function BaseComponent(text) {
         tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
         attributes: { 'data-type': this.type },
         children: [
-          { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, event: { 'type': 'input', 'function': this.handleText } },
-          { id: `${this.id}_duration`, tag: 'input', type: 'number', value: this.duration, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleDuration } },
-          { id: `${this.id}_startDate`, tag: 'input', type: 'date', value: this.startDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleStartDate } },
-          { id: `${this.id}_endDate`, tag: 'input', type: 'date', value: this.endDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleEndDate } },
+          { id: `${this.id}_text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, event: { 'type': 'input', 'function': this.handleChange } },
+          { id: `${this.id}_duration`, tag: 'input', type: 'number', value: this.duration, style: 'width: 50px', event: { 'type': 'click', 'function': this.handleChange } },
+          { id: `${this.id}_startDate`, tag: 'input', type: 'date', value: this.startDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleChange } },
+          { id: `${this.id}_endDate`, tag: 'input', type: 'date', value: this.endDate, style: 'width: 100px', event: { 'type': 'change', 'function': this.handleChange } },
         ]
       })
   }
