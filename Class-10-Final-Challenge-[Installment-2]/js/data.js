@@ -8,28 +8,29 @@ const all = []
 const tree = []
 
 const addComponent = (component, parentId) => {
-  //All
-  all.push(component)
-
   //Tree
   if (parentId === 'root') {
+    all.push(component)
     tree.push(component)
     get('#root').appendChild(component.renderProjectComponent())
   } else {
     const parent = all.filter(c => c.id === parentId)[0]
-    const parentLastChild = parent.lastChild(true)
+    const parentLast = parent.lastChild(true) || parent
+    all.splice(all.indexOf(parentLast) + 1, 0, component) //insert, in order, component in all, in order
 
-    const domParent = get(parentLastChild ? `#${parentLastChild.id}` : `#${parentId}`);
-    domParent.parentNode.insertBefore(component.renderProjectComponent(), domParent.nextSibling);
+    //update UI
+    const domParent = get(`#${parentLast.id}`);
+    domParent.parentNode.insertBefore(component.renderProjectComponent(), domParent.nextSibling)
     parent.appendChild(component)
   }
+  //console.log(all)
 
   saveTree()
   return component
 }
 
 const saveTree = () => {
-  //Storage
+  // Storage
   localStorage.setItem('treeData', JSON.stringify(tree))
 }
 
