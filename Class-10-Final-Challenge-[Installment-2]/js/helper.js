@@ -55,6 +55,3 @@ const date = (days = 0, date = new Date()) => {
   date.setDate(date.getDate() + Number(days))
   return date.toISOString().substr(0, 10)
 }
-
-
-// Date.prototype.addDays = function (d) { return new Date(this.valueOf() + (24 * 60 * 60) * d); };

@@ -12,8 +12,3 @@ components.forEach(componentName => {
 })
 
 loadFromStorage()
-
-// console.log(date(0, '2020-12-22'))
-// console.log(date(1, '2020-12-22'))
-// console.log(date(2, '2020-12-22'))
-// console.log(date(3, '2020-12-22'))
