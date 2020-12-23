@@ -171,3 +171,14 @@ function BaseComponent(text) {
       })
   }
 }
+
+
+
+
+
+Header.prototype = {
+  xx: function () {
+    return 'jose'
+  }
+};
+

@@ -12,3 +12,9 @@ components.forEach(componentName => {
 })
 
 loadFromStorage()
+
+
+
+
+const xxx = new Header()
+console.log(xxx.xx())
