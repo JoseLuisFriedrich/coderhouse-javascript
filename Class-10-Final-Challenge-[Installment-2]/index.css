@@ -78,6 +78,13 @@ h2 {
   width: 160px;
 }
 
+input[type='date'],
+input[type='number'],
+input[type='text'] {
+  height: 27px;
+  border: 1px solid silver;
+}
+
 input[type='date']::-webkit-datetime-edit,
 input[type='date']::-webkit-inner-spin-button,
 input[type='date']::-webkit-clear-button {
