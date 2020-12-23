@@ -24,11 +24,7 @@ const addComponent = (component, parentId) => {
     parent.appendChild(component)
   }
 
-  // console.log(`Added ${component.id} in parent ${parentId}`)
-  // console.log(tree)
-
   saveTree()
-
   return component
 }
 

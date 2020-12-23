@@ -53,7 +53,7 @@ function Resource() {
 function BaseComponent(text) {
   // Props
   this.id = guid()
-  this.text = null //text.toUpperCase()
+  this.text = null
   this.type = text
   this.duration = 1
   this.startDate = date()
