@@ -5,7 +5,7 @@
 /////////////////
 
 // DOM helper
-const dom = (data, parent) => {
+const createDom = (data, parent) => {
   const element = document.createElement(data.tag)
 
   //State
@@ -22,7 +22,7 @@ const dom = (data, parent) => {
 
   //Children
   if (data.children) {
-    data.children.forEach(child => dom(child, element))
+    data.children.forEach(child => createDom(child, element))
   }
 
   //Parent
@@ -34,14 +34,8 @@ const dom = (data, parent) => {
 
 // Selector
 const get = selector => {
-  let result = document.querySelector(selector)
-  // if (result === null) result = document.querySelector(`#${selector}`)
-  // if (result === null) result = document.querySelector(`.${selector}`)
-  return result
+  return document.querySelector(selector)
 }
-
-// Selector Array
-// const getAll = selector => document.querySelectorAll(selector)
 
 // Guid
 const guid = () => 'c' + ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, c => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))

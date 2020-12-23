@@ -35,7 +35,7 @@ function Resource() {
 
   //Custom Basic Render
   this.renderBasicComponent = (parentSelector) => {
-    return dom({
+    return createDom({
       tag: 'div', id: this.id, text: this.text, className: 'component',
       attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent.toLowerCase() },
       children: [
@@ -152,7 +152,7 @@ function BaseComponent(text) {
 
   // Render Basic Component
   this.renderBasicComponent = (parentSelector) => {
-    return dom(
+    return createDom(
       {
         tag: 'div', text: this.text, className: 'component',
         attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.dragAndDropParent },
@@ -161,7 +161,7 @@ function BaseComponent(text) {
 
   // Render Project Component
   this.renderProjectComponent = () => {
-    return dom(
+    return createDom(
       {
         tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
         attributes: { 'data-type': this.type },
