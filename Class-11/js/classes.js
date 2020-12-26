@@ -13,31 +13,31 @@ function classFactory(type) {
 // Components
 function Header() {
   BaseComponent.call(this, 'Header')
-  this.dragAndDropParent = 'root'
+  this.parentType = 'root'
   Object.seal(this)
 }
 
 function Category() {
   BaseComponent.call(this, 'Category')
-  this.dragAndDropParent = 'Header'
+  this.parentType = 'Header'
   Object.seal(this)
 }
 
 function Task() {
   BaseComponent.call(this, 'Task')
-  this.dragAndDropParent = 'Category'
+  this.parentType = 'Category'
   Object.seal(this)
 }
 
 function Resource() {
   BaseComponent.call(this, 'Resource')
-  this.dragAndDropParent = 'Task'
+  this.parentType = 'Task'
 
   //Custom Basic Render
   this.renderBasicComponent = (parentSelector) => {
     return createDom({
       tag: 'div', id: this.id, text: this.text, className: 'component',
-      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.dragAndDropParent.toLowerCase() },
+      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.parentType.toLowerCase() },
       children: [
         {
           tag: 'input', placeholder: 'price per hour', type: 'text', style: 'width: 100%',
@@ -55,11 +55,12 @@ function BaseComponent(text) {
   this.id = guid()
   this.text = null
   this.type = text
-  this.duration = 1
+  this.duration = (this.type == 'Task' ? 1 : 0)
   this.startDate = dateParse()
-  this.endDate = dateParse(1)
-  this.dragAndDropParent = null
+  this.endDate = dateParse()
+  this.parentType = null
   this.children = []
+  this.parentId = 0
 
   // When I read data from storage
   this.set = (data) => {
@@ -69,7 +70,7 @@ function BaseComponent(text) {
     this.duration = data.duration
     this.startDate = data.startDate
     this.endDate = data.endDate
-    this.dragAndDropParent = data.dragAndDropParent
+    this.parentType = data.parentType
   }
 
   // Setters
@@ -81,7 +82,7 @@ function BaseComponent(text) {
     saveTree()
   }
 
-  this.setDuration = (duration, updateDom = true) => {
+  this.setDuration = (duration, updateDom = true, trigger = true) => {
     // Validations
     if (duration == -1 || duration == 100) {
       this.setDuration(duration == -1 ? 0 : 99, true)
@@ -92,27 +93,38 @@ function BaseComponent(text) {
     this.duration = duration
 
     // Triggers
-    this.setEndDate(dateParse(this.duration, this.startDate))
+    if (trigger) {
+      this.setEndDate(dateParse(this.duration, this.startDate))
+    }
 
     // Dom
-    if (updateDom) get(`#${this.id}-duration`).value = this.duration
+    if (updateDom) {
+      const domValue = get(`#${this.id}-duration`)
+      if (domValue.value !== this.duration) {
+        domValue.value = this.duration
+      }
+    }
 
     // Propagate update
-    linkDates(this)
+    if (trigger) {
+      linkDates(this)
+    }
 
     // Persist
     saveTree()
   }
 
   this.setStartDate = (date, updateDom = true, trigger = true) => {
-    // Validations
-    // if (dateParse(0, date, true) >= dateParse(0, this.endDate, true)) {
-    //   this.setStartDate(dateParse(-1, this.endDate), true)
-    //   return
-    // }
-
     // State
     this.startDate = date
+
+    //When First Start Date Change
+    if (!updateDom) {
+      trigger = false
+
+      this.setEndDate(dateParse(this.duration, this.startDate), true, false)
+      linkDates(this)
+    }
 
     // Triggers
     if (trigger) {
@@ -123,7 +135,12 @@ function BaseComponent(text) {
     }
 
     // Dom
-    if (updateDom) get(`#${this.id}-startDate`).value = this.startDate
+    if (updateDom) {
+      const domValue = get(`#${this.id}-startDate`)
+      if (domValue.value !== this.startDate) {
+        domValue.value = this.startDate
+      }
+    }
 
     // Persist
     saveTree()
@@ -131,8 +148,8 @@ function BaseComponent(text) {
 
   this.setEndDate = (date, updateDom = true, trigger = true) => {
     // Validations
-    if (dateParse(0, date, true) <= dateParse(0, this.startDate, true)) {
-      this.setEndDate(dateParse(1, this.startDate), true)
+    if (dateParse(0, date, true) < dateParse(0, this.startDate, true)) {
+      this.setEndDate(this.startDate, true)
       return
     }
 
@@ -148,7 +165,12 @@ function BaseComponent(text) {
     }
 
     // Dom
-    if (updateDom) get(`#${this.id}-endDate`).value = this.endDate
+    if (updateDom) {
+      const domValue = get(`#${this.id}-endDate`)
+      if (domValue.value !== this.endDate) {
+        domValue.value = this.endDate
+      }
+    }
 
     // Persist
     saveTree()
@@ -176,12 +198,19 @@ function BaseComponent(text) {
 
   // Children
   this.appendChild = component => {
+    component.parentId = this.id
     this.children.push(component)
     return component
   }
 
   this.hasChildren = () => {
     return this.children.length > 0;
+  }
+
+  this.firstChild = () => {
+    if (!this.hasChildren()) return null
+
+    return this.children[0]
   }
 
   this.lastChild = (recursive = false) => {
@@ -191,7 +220,7 @@ function BaseComponent(text) {
 
     if (recursive) {
       while (last.hasChildren()) {
-        last = last.lastChild(recursive)
+        last = last.lastChild()
       }
     }
 
@@ -203,13 +232,14 @@ function BaseComponent(text) {
     return createDom(
       {
         tag: 'div', id: this.id, text: this.text, className: 'component',
-        attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.dragAndDropParent },
+        attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.parentType },
       }, parentSelector)
   }
 
   // Render Project Component
-  this.renderProjectComponent = () => {
-    const readOnly = (this.type !== 'Task')
+  this.renderProjectComponent = (isFirst) => {
+    const readOnlyStartDate = !isFirst
+    const readOnlyEndDate = (this.type !== 'Task')
 
     return createDom(
       {
@@ -217,9 +247,9 @@ function BaseComponent(text) {
         attributes: { 'data-type': this.type },
         children: [
           { id: `${this.id}-text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, attributes: { 'data-name': 'text' }, event: { 'type': 'input', 'function': this.handleChange } },
-          { id: `${this.id}-duration`, tag: 'input', type: 'number', readOnly: readOnly, value: this.duration, style: 'width: 50px', attributes: { 'data-name': 'duration' }, event: { 'type': 'click', 'function': this.handleChange } },
-          { id: `${this.id}-startDate`, tag: 'input', type: 'date', readOnly: readOnly, value: this.startDate, style: 'width: 100px', attributes: { 'data-name': 'startDate' }, event: { 'type': 'change', 'function': this.handleChange } },
-          { id: `${this.id}-endDate`, tag: 'input', type: 'date', readOnly: readOnly, value: this.endDate, style: 'width: 100px', attributes: { 'data-name': 'endDate' }, event: { 'type': 'change', 'function': this.handleChange } },
+          { id: `${this.id}-duration`, tag: 'input', type: 'number', readOnly: readOnlyEndDate, value: this.duration, style: 'width: 50px', attributes: { 'data-name': 'duration' }, event: { 'type': 'click', 'function': this.handleChange } },
+          { id: `${this.id}-startDate`, tag: 'input', type: 'date', readOnly: readOnlyStartDate, value: this.startDate, style: 'width: 100px', attributes: { 'data-name': 'startDate' }, event: { 'type': 'change', 'function': this.handleChange } },
+          { id: `${this.id}-endDate`, tag: 'input', type: 'date', readOnly: readOnlyEndDate, value: this.endDate, style: 'width: 100px', attributes: { 'data-name': 'endDate' }, event: { 'type': 'change', 'function': this.handleChange } },
         ]
       })
   }

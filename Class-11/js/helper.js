@@ -48,6 +48,7 @@ const dateParse = (days = 0, date = new Date(), returnDate = false) => {
   }
 
   date.setDate(date.getDate() + Number(days))
+
   return (returnDate ? date : date.toISOString().substr(0, 10))
 }
 

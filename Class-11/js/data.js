@@ -7,40 +7,76 @@
 const flat = []
 const tree = []
 
+const getPrevious = (index, type = null) => {
+  if (index > 0) {
+    for (let i = index - 1; i >= 0; i--) {
+      if (flat[i].type == type || type === null) {
+        return flat[i]
+      }
+    }
+  }
+
+  return null
+}
+
 const linkDates = (component) => {
   const index = flat.indexOf(component)
 
-  // Calculate Start Date
-  let startDate = dateParse(0, component.startDate)
-  if (index > 0) {
-    startDate = dateParse(1, flat[index - 1].endDate)
-  }
+  // Previous
+  switch (component.type) {
+    case 'Header':
+    case 'Category':
+      if (component.hasChildren()) {
+        component.setStartDate(component.firstChild().startDate, true, false)
+        component.setEndDate(component.lastChild(component.type === 'Category').endDate, true, false)
+        component.setDuration(dateDiff(component.startDate, component.endDate), true, false)
+      } else {
+        const previous = getPrevious(index)
+        if (previous !== null) {
+          component.setStartDate(previous.endDate, true, false)
+          component.setEndDate(previous.endDate, true, false)
+        }
+      }
+      break
+    case 'Task':
+      //Previous Task
+      const previousTask = getPrevious(index, 'Task')
 
-  // Calculate End Date
-  let endDate = dateParse(component.duration, startDate)
+      // Calculate Start Date
+      let startDate = dateParse(0, component.startDate)
 
-  // Set Start Date
-  if (component.startDate != startDate) {
-    // debugger
-    // component.startDate = dateParse(0, startDate)
-    component.setStartDate(dateParse(0, startDate), true, false)
-  }
+      if (previousTask !== null) {
+        startDate = dateParse(1, previousTask.endDate)
+      }
 
-  // Set End Date
-  if (component.endDate != endDate) {
-    // debugger
-    // component.endDate = dateParse(0, endDate)
-    component.setEndDate(dateParse(0, endDate), true, false)
-  }
+      if (component.startDate != startDate) {
+        component.setStartDate(dateParse(0, startDate), true, false)
+      }
 
-  // Propagate
-  // console.clear()
+      // Calculate End Date
+      const endDate = dateParse(component.duration, startDate)
 
-  //console.log(component.type, startDate, endDate)
-  for (let i = index + 1; i < flat.length; i++) {
-    linkDates(flat[i])
+      if (component.endDate != endDate) {
+        component.setEndDate(dateParse(0, endDate), true, false)
+      }
+
+      // Propagate Down
+      for (let i = index + 1; i < flat.length; i++) {
+        const nextComponent = flat[i]
+        linkDates(nextComponent)
+      }
+
+      // Propage Up
+      if (component.type === 'Task') {
+        while (component.parentId !== 0) {
+          component = flat.find(c => c.id === component.parentId)
+          linkDates(component)
+        }
+      }
+      break
   }
 }
+
 const addComponent = (component, parentId) => {
   if (parentId === 'root') {
     // Flat
@@ -56,7 +92,7 @@ const addComponent = (component, parentId) => {
     linkDates(component)
   } else {
     // Flat
-    const parent = flat.filter(c => c.id === parentId)[0]
+    const parent = flat.find(c => c.id === parentId)
     const parentLastChild = parent.lastChild(true) || parent
     flat.splice(flat.indexOf(parentLastChild) + 1, 0, component) //insert component in flat where in the order where it belongs
 
@@ -64,7 +100,8 @@ const addComponent = (component, parentId) => {
     parent.appendChild(component)
 
     // UI
-    $(component.renderProjectComponent()).insertAfter(`#${parentLastChild.id}`)
+    const isFirstTask = component.type === 'Task' && getPrevious(flat.indexOf(component), 'Task') === null
+    $(component.renderProjectComponent(isFirstTask)).insertAfter(`#${parentLastChild.id}`)
 
     // Propagate
     linkDates(component)

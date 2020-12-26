@@ -37,60 +37,24 @@ divPadre.appendChild(node, parent)
 
 --------------------------------------------------------------------------------------------------------
 
-
-const dragEnter = event => {
-  event.currentTarget.classList.add('drop');
-}
-
-const dragLeave = event => {
-  event.currentTarget.classList.remove('drop');
-}
-
-
-// getAll('.secondaryContainer').forEach(secondaryContainer => {
-//   secondaryContainer.addEventListener('dragenter', dragEnter);
-//   secondaryContainer.addEventListener('dragleave', dragLeave);
-// })
-
+    // case 'Header':
+    //   if (component.hasChildren()) {
+    //     component.setStartDate(component.firstChild().startDate, true, false)
+    //     component.setEndDate(component.lastChild(false).endDate, true, false)
+    //     component.setDuration(dateDiff(component.startDate, component.endDate), true, false)
+    //   } else {
+    //     const previous = getPrevious(index)
+    //     if (previous !== null) {
+    //       component.setStartDate(previous.endDate, true, false)
+    //       component.setEndDate(previous.endDate, true, false)
+    //     }
+    //   }
+    //   break
 
 
-  // event.dataTransfer.setData('text/plain', event.currentTarget.dataset.id);
-  //document.querySelector(`[data-id="${event.dataTransfer.getData('text/plain')}"]`).remove();
+    // Validations
+    // if (dateParse(0, date, true) >= dateParse(0, this.endDate, true)) {
+    //   this.setStartDate(dateParse(-1, this.endDate), true)
+    //   return
+    // }
 
-
-// const dragStart = target => {
-//   target.classList.add('dragging');
-// }
-
-// const dragEnd = event => {
-//   event.currentTarget.classList.remove('dragging');
-// }
-
-
-getAll('.component').forEach(component => {
-  component.addEventListener('dragend', dragEnd);
-})
-
-
-      // childs: [
-      //   {
-      //     tag: 'h2', text: this.name,
-      //     attributes: { 'oninput': `handleChange('${this.id}', 'name', this)`, 'value': `${name}` },
-      //     style: 'width: 100%'
-      //   }
-      // ]
-
-
-    // `
-    // <article id="${id}" class="component" draggable="true" ondragstart="drag(event)" data-id="header">
-    //   <input type="text" style="width: 100%" oninput="handleChange('${id}', 'name', this)" value="${name}">
-    // </article>
-    // `
-
-    
-// String to Element
-// const element = element => {
-//   dummy = document.createElement('template')
-//   dummy.innerHTML = element.trim()
-//   return dummy.content.childNodes[0]
-// }
