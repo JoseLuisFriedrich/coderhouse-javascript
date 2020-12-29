@@ -22,7 +22,6 @@ node.textContent = ''
 divPadre.appendChild(node, parent)
 .insertBefore
 
-
 $(function () {
  $.ajax({
   url: 'http://.......',
