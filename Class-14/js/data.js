@@ -122,22 +122,19 @@ const saveTree = () => {
   localStorage.setItem('treeData', JSON.stringify(tree))
 }
 
+const loadComponents = (data, parentId) => {
+  data.forEach(componentData => {
+    const component = classFactory(componentData.type)
+    component.set(componentData)
+
+    addComponent(component, parentId)
+    loadComponents(componentData.children, component.id)
+  })
+}
+
 const loadDataFromStorage = () => {
-  // Attach Events
-  get('#clearStorage').addEventListener('click', clearStorage)
-
   // Load from Storage
-  const reloadComponents = (dataArray, parentId) => {
-    dataArray.forEach(componentData => {
-      const component = classFactory(componentData.type)
-      component.set(componentData)
-
-      addComponent(component, parentId)
-      reloadComponents(componentData.children, component.id)
-    })
-  }
-
-  reloadComponents(JSON.parse(localStorage.getItem('treeData') || '[]'), 'root')
+  loadComponents(JSON.parse(localStorage.getItem('treeData') || '[]'), 'root')
 }
 
 const clearStorage = () => {
@@ -148,3 +145,6 @@ const clearStorage = () => {
 
   localStorage.clear()
 }
+
+// Attach Events
+get('#clearStorage').addEventListener('click', clearStorage)

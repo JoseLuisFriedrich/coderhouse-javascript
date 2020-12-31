@@ -22,33 +22,6 @@ node.textContent = ''
 divPadre.appendChild(node, parent)
 .insertBefore
 
-
-ttps://my-json-server.typicode.com/JoseLuisFriedrich/
-
-$(function () {
- $.ajax({
-  url: 'http://.......',
-  dataType: 'json',
-  success: function(data) {
-    const sampleProject = data.results
-    sampleProject.foreach(row => {
-      
-    })
-  },
-  error: function(xhr, status, errorThrown) {
-    console.log(xhr)
-  }
- })
-})
-
-
-
-
-
-
-
-
-
 --------------------------------------------------------------------------------------------------------
 
     // case 'Header':
