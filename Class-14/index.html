@@ -11,9 +11,10 @@
   <!-- Styles -->
   <link rel='stylesheet' href='index.css'>
 
-  <!-- Scripts -->
+  <!-- External Scripts -->
   <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+  <!-- App Scripts -->
   <script defer src='js/ajax.js'></script>
   <script defer src='js/classes.js'></script>
   <script defer src='js/helper.js'></script>
@@ -23,30 +24,60 @@
 </head>
 
 <body>
-  <!-- Main -->
-  <main class='mainContainer'>
-    <div class='secondaryContainer' id='components'>
-      <h2>Components</h2>
-    </div>
 
-    <div class='secondaryContainer' id='root' ondrop='drop(event)' ondragover='allowDrop(event)' data-type='root'>
-      <h2>Project</h2>
+  <section class="intro">
+    <div>
+      <h3>Estimado Proyecto...</h3>
+      <p>Bienvenidos a "Estimado Proyecto", donde podrás estimar el tiempo que te llevará un proyecto.
+        Si bien está diseñado para proyectos de Software, podrás utilizarlo para estimar cualquier tipo de proyectos.
+      </p>
     </div>
-  </main>
+  </section>
 
-  <!-- Intructions -->
-  <div id='help'>
-    <h1>
-      <br>Drag&Drop:<br>
-      <br>1) Add Headers
-      <br>2) Add Categories on any Header
-      <br>3) Add Tasks on any Categories
-      <br>4) Add Resources on Tasks (N/A yet)
-      <br><br>Estructura, drag and drop y storage funcionando, falta darle la funcionalidad todavía
-      <br><br><button id="clearStorage">Clear Storage</button>
-      <br><br><button id="demoData">Get Demo Data From Server</button>
-    </h1>
-  </div>
+  <section class="tutorial">
+    <div>
+      <h3>Tutorial</h3>
+      <p>Es muy simple de utilizar, simplemente hacé drag & drop y editar de los componentes y listo!
+        Primero hacé drag & drop de Título, luego Categoría sobre el Título que quieras, y por último las Tareas sobre las Categorías.</p>
+    </div>
+    <div>
+      <h3>Demo</h3>
+      <p>Hacé click en el botón "Ejemplo" para visualizar un proyecto de ejemplo.</p>
+    </div>
+  </section>
+
+  <section class="main">
+    <div>
+      <!-- Main -->
+      <main>
+        <div class='containers' id='components'>
+          <h2>Componentes</h2>
+        </div>
+
+        <div class='containers' id='root' ondrop='drop(event)' ondragover='allowDrop(event)' data-type='root'>
+          <h2>Projecto</h2>
+        </div>
+      </main>
+
+      <div>
+        <br>
+        <button id="demoData">Ejemplo</button>
+        <button id="clearStorage">Limpiar</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="misc">
+    <div>
+      <h3>¿Problemas con la página?</h3>
+      <p>1. Utilizar Google Chrome</p>
+      <p>2. Limpiar el caché (Storage) haciéndo click en el botón "Limpiar"</p>
+    </div>
+    <div>
+      <h3>Desarrollo</h3>
+      <p>Éste es un Sitio Web fantasía desarrollado exclusivamente para el proyecto final CoderHouse Javascript utilizando HTML, CSS, Vanilla JavaScript y jQuery.
+    </div>
+  </section>
 
 </body>
 

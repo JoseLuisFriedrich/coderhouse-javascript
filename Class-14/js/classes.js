@@ -12,25 +12,25 @@ function classFactory(type) {
 
 // Components
 function Header() {
-  BaseComponent.call(this, 'Header')
+  BaseComponent.call(this, 'Cabecera', 'Header')
   this.parentType = 'root'
   Object.seal(this)
 }
 
 function Category() {
-  BaseComponent.call(this, 'Category')
+  BaseComponent.call(this, 'Categoría', 'Category')
   this.parentType = 'Header'
   Object.seal(this)
 }
 
 function Task() {
-  BaseComponent.call(this, 'Task')
+  BaseComponent.call(this, 'Tarea', 'Task')
   this.parentType = 'Category'
   Object.seal(this)
 }
 
 function Resource() {
-  BaseComponent.call(this, 'Resource')
+  BaseComponent.call(this, 'Recurso', 'Resource')
   this.parentType = 'Task'
 
   //Custom Basic Render
@@ -50,11 +50,11 @@ function Resource() {
 }
 
 // Base Component
-function BaseComponent(text) {
+function BaseComponent(placeholder, type) {
   // Props
   this.id = guid()
-  this.text = null
-  this.type = text
+  this.text = this.placeholder
+  this.type = type
   this.duration = (this.type == 'Task' ? 1 : 0)
   this.startDate = dateParse()
   this.endDate = dateParse()
@@ -231,7 +231,7 @@ function BaseComponent(text) {
   this.renderBasicComponent = (parentSelector) => {
     return createDom(
       {
-        tag: 'div', id: this.id, text: this.text, className: 'component',
+        tag: 'div', id: this.id, text: placeholder, className: 'component',
         attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.parentType },
       }, parentSelector)
   }
@@ -246,7 +246,7 @@ function BaseComponent(text) {
         tag: 'div', id: this.id, className: `projectComponent ${this.type.toLowerCase()}`,
         attributes: { 'data-type': this.type },
         children: [
-          { id: `${this.id}-text`, tag: 'input', type: 'text', value: this.text, placeholder: this.type, attributes: { 'data-name': 'text' }, event: { 'type': 'input', 'function': this.handleChange } },
+          { id: `${this.id}-text`, tag: 'input', type: 'text', value: this.text, placeholder: placeholder, attributes: { 'data-name': 'text' }, event: { 'type': 'input', 'function': this.handleChange } },
           { id: `${this.id}-duration`, tag: 'input', type: 'number', readOnly: readOnlyEndDate, value: this.duration, style: 'width: 50px', attributes: { 'data-name': 'duration' }, event: { 'type': 'click', 'function': this.handleChange } },
           { id: `${this.id}-startDate`, tag: 'input', type: 'date', readOnly: readOnlyStartDate, value: this.startDate, style: 'width: 100px', attributes: { 'data-name': 'startDate' }, event: { 'type': 'change', 'function': this.handleChange } },
           { id: `${this.id}-endDate`, tag: 'input', type: 'date', readOnly: readOnlyEndDate, value: this.endDate, style: 'width: 100px', attributes: { 'data-name': 'endDate' }, event: { 'type': 'change', 'function': this.handleChange } },
