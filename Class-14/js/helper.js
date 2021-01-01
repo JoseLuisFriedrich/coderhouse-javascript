@@ -34,9 +34,8 @@ const createDom = (data, parent) => {
 }
 
 // Selector
-const get = selector => {
-  return document.querySelector(selector)
-}
+const get = selector => document.querySelector(selector)
+const set = (selector, value) => document.querySelector(selector).innerHTML = value
 
 // Guid
 const guid = () => 'c' + ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, c => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))

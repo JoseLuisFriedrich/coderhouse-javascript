@@ -20,7 +20,7 @@
           "children": [
             {
               "id": "c9991ae2201ca4e8681044096f9bb74e3",
-              "text": "Proto versión inicial",
+              "text": "Desarrollo Prototipo Inicial",
               "type": "Task",
               "duration": "6",
               "startDate": "2020-12-30",
@@ -54,7 +54,7 @@
             },
             {
               "id": "c3070945ec03148eba774c1820b73e991",
-              "text": "Documentación",
+              "text": "Documentación de arquitectura a desarrollar",
               "type": "Task",
               "duration": 1,
               "startDate": "2021-01-10",
@@ -89,7 +89,7 @@
           "children": [
             {
               "id": "c28f2fc8f47ce470da1f762403c456e88",
-              "text": "Arquitectura",
+              "text": "Arquitectura del Sistema",
               "type": "Task",
               "duration": "15",
               "startDate": "2021-01-12",
@@ -100,7 +100,7 @@
             },
             {
               "id": "c2d91ddfd527c4a88bbd051f90b066cee",
-              "text": "Desarrollo",
+              "text": "Desarrollo Core Aplicación",
               "type": "Task",
               "duration": "50",
               "startDate": "2021-01-28",
@@ -123,7 +123,7 @@
           "children": [
             {
               "id": "cd80c85135b274803ad81da269b07cf3b",
-              "text": "desarrollo mejoras",
+              "text": "Corrección bugs y mejoras",
               "type": "Task",
               "duration": "10",
               "startDate": "2021-03-20",
@@ -134,7 +134,7 @@
             },
             {
               "id": "c8eb574ed65eb40378b0594e0ee84a9f4",
-              "text": "performance",
+              "text": "Mejoras de performance",
               "type": "Task",
               "duration": "5",
               "startDate": "2021-03-31",
@@ -169,7 +169,7 @@
           "children": [
             {
               "id": "ccc8317e79840447180220dea044c35cb",
-              "text": "Ambiente desa",
+              "text": "Ambiente Desarrollo",
               "type": "Task",
               "duration": "2",
               "startDate": "2021-04-06",
@@ -180,7 +180,7 @@
             },
             {
               "id": "cd06444f329f64d0ea65d364f7c2c58a4",
-              "text": "Producción",
+              "text": "Ambiente Producción",
               "type": "Task",
               "duration": "2",
               "startDate": "2021-04-09",
@@ -203,7 +203,7 @@
           "children": [
             {
               "id": "cfe0a4f0ec1154119b373fc30617b92cd",
-              "text": "Documento final",
+              "text": "Documentación final",
               "type": "Task",
               "duration": 1,
               "startDate": "2021-04-12",

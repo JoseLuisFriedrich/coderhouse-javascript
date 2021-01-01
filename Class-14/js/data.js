@@ -19,7 +19,19 @@ const getPrevious = (index, type = null) => {
   return null
 }
 
-const linkDates = (component) => {
+const getNext = (index, type = null) => {
+  if (index + 1 < flat.length - 1) {
+    for (let i = index; flat.length; i++) {
+      if (flat[i].type == type || type === null) {
+        return flat[i]
+      }
+    }
+  }
+
+  return null
+}
+
+const propagate = (component) => {
   const index = flat.indexOf(component)
 
   // Previous
@@ -31,6 +43,20 @@ const linkDates = (component) => {
         component.setEndDate(component.lastChild(component.type === 'Category').endDate, true, false)
         component.setDuration(dateDiff(component.startDate, component.endDate), true, false)
       } else {
+        // if (component.type == 'Category') {
+        //   const header = flat.find(c => c.id === component.parentId)
+        //   const child = parent.lastChild(true)
+        //   if(child.type !== 'Task') {
+
+        //   }
+
+        //   // if (parent.hasChildren()) {
+        //   //   console.log('ok')
+        //   // } else {
+        //   //   console.log('empty')
+        //   // }
+        // }
+
         const previous = getPrevious(index)
         if (previous !== null) {
           component.setStartDate(previous.endDate, true, false)
@@ -63,14 +89,14 @@ const linkDates = (component) => {
       // Propagate Down
       for (let i = index + 1; i < flat.length; i++) {
         const nextComponent = flat[i]
-        linkDates(nextComponent)
+        propagate(nextComponent)
       }
 
       // Propage Up
       if (component.type === 'Task') {
         while (component.parentId !== 0) {
           component = flat.find(c => c.id === component.parentId)
-          linkDates(component)
+          propagate(component)
         }
       }
       break
@@ -89,7 +115,7 @@ const addComponent = (component, parentId) => {
     get('#root').appendChild(component.renderProjectComponent())
 
     // Propagate
-    linkDates(component)
+    propagate(component)
   } else {
     // Flat
     const parent = flat.find(c => c.id === parentId)
@@ -104,7 +130,7 @@ const addComponent = (component, parentId) => {
     $(component.renderProjectComponent(isFirstTask)).insertAfter(`#${parentLastChild.id}`)
 
     // Propagate
-    linkDates(component)
+    propagate(component)
   }
 
   $(`#${component.id}`)
@@ -115,6 +141,52 @@ const addComponent = (component, parentId) => {
 
   saveTree()
   return component
+}
+
+const delComponent = (component) => {
+  // Flat
+  const currentIndex = flat.indexOf(component) - 1
+  const category = flat.find(c => c.id === component.parentId)
+  flat.splice(flat.indexOf(component), 1)
+
+  // Tree
+  category.removeChild(component)
+
+  // UI
+  $(`#${component.id}`).remove()
+
+  // Get remaining children
+  const categoryLastChild = category.lastChild(true)
+
+  // If category has no children, I set the current category to 0, then find next component (if any) to link the date of the previous
+  if (categoryLastChild == null) {
+    // debugger
+    propagate(category)
+
+    // const previousTask = getPrevious(currentIndex, 'Task')
+
+    // // Reset dates since it has no children tasks
+    // parent.setDuration(0, true, true)
+    // parent.setStartDate(dateParse(0, previousTask.endDate), true, false)
+    // parent.setEndDate(dateParse(0, previousTask.endDate), true, false)
+
+    // // Link the next task to the previous one
+    // const next = getNext(currentIndex, 'Task')
+    // if (previousTask && next) {
+    //   next.setStartDate(dateParse(1, previousTask.endDate))
+    //   //propagate(next)
+    // }
+
+    // // Refresh header
+    // const header = flat.find(c => c.id === parent.parentId)
+    // propagate(header)
+  } else {
+    // Propagate
+    //console.log(parentLastChild.startDate, parentLastChild.endDate)
+    propagate(categoryLastChild)
+  }
+
+  saveTree()
 }
 
 const saveTree = () => {

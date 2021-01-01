@@ -16,4 +16,8 @@ $(() => {
   })
 
   loadDataFromStorage()
+
+
+
+  getDemoDataFromServer()
 })

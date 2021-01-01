@@ -2,6 +2,9 @@
 const endpoint = 'https://my-json-server.typicode.com/JoseLuisFriedrich/coderhouse-javascript/demoData'
 
 const getDemoDataFromServer = () => {
+
+  set('#loading', 'Cargando...')
+
   $.ajax({
     url: endpoint,
     dataType: 'json',
@@ -11,6 +14,7 @@ const getDemoDataFromServer = () => {
 
       // Load Components
       loadComponents(data, 'root')
+      set('#loading', '&nbsp;')
     },
     error: function (xhr, status, errorThrown) {
       console.log(xhr)

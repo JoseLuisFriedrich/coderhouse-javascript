@@ -29,25 +29,25 @@ function Task() {
   Object.seal(this)
 }
 
-function Resource() {
-  BaseComponent.call(this, 'Recurso', 'Resource')
-  this.parentType = 'Task'
+// function Resource() {
+//   BaseComponent.call(this, 'Recurso', 'Resource')
+//   this.parentType = 'Task'
 
-  //Custom Basic Render
-  this.renderBasicComponent = (parentSelector) => {
-    return createDom({
-      tag: 'div', id: this.id, text: this.text, className: 'component',
-      attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.parentType.toLowerCase() },
-      children: [
-        {
-          tag: 'input', placeholder: 'price per hour', type: 'text', style: 'width: 100%',
-        }
-      ]
-    }, parentSelector)
-  }
+//   //Custom Basic Render
+//   this.renderBasicComponent = (parentSelector) => {
+//     return createDom({
+//       tag: 'div', id: this.id, text: this.text, className: 'component',
+//       attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.parentType.toLowerCase() },
+//       children: [
+//         {
+//           tag: 'input', placeholder: 'price per hour', type: 'text', style: 'width: 100%',
+//         }
+//       ]
+//     }, parentSelector)
+//   }
 
-  Object.seal(this)
-}
+//   Object.seal(this)
+// }
 
 // Base Component
 function BaseComponent(placeholder, type) {
@@ -105,9 +105,19 @@ function BaseComponent(placeholder, type) {
       }
     }
 
+    // Hide Empty Headers / Categories Dates
+    const visibility = (this.duration == 0 ? 'hidden' : 'visible')
+    const domStartDate = get(`#${this.id}-startDate`)
+    if (domStartDate.style.visibility !== visibility) {
+      domStartDate.style.visibility = visibility
+
+      const domEndDate = get(`#${this.id}-endDate`)
+      domEndDate.style.visibility = visibility
+    }
+
     // Propagate update
     if (trigger) {
-      linkDates(this)
+      propagate(this)
     }
 
     // Persist
@@ -123,7 +133,7 @@ function BaseComponent(placeholder, type) {
       trigger = false
 
       this.setEndDate(dateParse(this.duration, this.startDate), true, false)
-      linkDates(this)
+      propagate(this)
     }
 
     // Triggers
@@ -176,6 +186,10 @@ function BaseComponent(placeholder, type) {
     saveTree()
   }
 
+  this.deleteTask = () => {
+    delComponent(this)
+  }
+
   // Handlers
   this.handleChange = (e) => {
     const value = e.target.value
@@ -193,6 +207,9 @@ function BaseComponent(placeholder, type) {
       case 'endDate':
         this.setEndDate(value, false)
         break
+      case 'delete':
+        this.deleteTask()
+        break
     }
   }
 
@@ -200,6 +217,13 @@ function BaseComponent(placeholder, type) {
   this.appendChild = component => {
     component.parentId = this.id
     this.children.push(component)
+    return component
+  }
+
+  // Children
+  this.removeChild = component => {
+    const index = this.children.indexOf(component);
+    this.children.splice(index, 1);
     return component
   }
 
@@ -238,8 +262,9 @@ function BaseComponent(placeholder, type) {
 
   // Render Project Component
   this.renderProjectComponent = (isFirst) => {
+    const isTask = (this.type === 'Task')
     const readOnlyStartDate = !isFirst
-    const readOnlyEndDate = (this.type !== 'Task')
+    const readOnlyEndDate = !isTask
 
     return createDom(
       {
@@ -250,6 +275,7 @@ function BaseComponent(placeholder, type) {
           { id: `${this.id}-duration`, tag: 'input', type: 'number', readOnly: readOnlyEndDate, value: this.duration, style: 'width: 50px', attributes: { 'data-name': 'duration' }, event: { 'type': 'click', 'function': this.handleChange } },
           { id: `${this.id}-startDate`, tag: 'input', type: 'date', readOnly: readOnlyStartDate, value: this.startDate, style: 'width: 100px', attributes: { 'data-name': 'startDate' }, event: { 'type': 'change', 'function': this.handleChange } },
           { id: `${this.id}-endDate`, tag: 'input', type: 'date', readOnly: readOnlyEndDate, value: this.endDate, style: 'width: 100px', attributes: { 'data-name': 'endDate' }, event: { 'type': 'change', 'function': this.handleChange } },
+          { id: `${this.id}-delete`, tag: 'img', style: 'width: 20px', attributes: { 'data-name': 'delete', 'src': isTask && !isFirst ? 'images/delete.png' : '' }, event: { 'type': 'click', 'function': this.handleChange } },
         ]
       })
   }
