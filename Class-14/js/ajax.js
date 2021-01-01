@@ -1,3 +1,8 @@
+'use strict'
+
+//////////
+// Ajax //
+//////////
 
 const endpoint = 'https://my-json-server.typicode.com/JoseLuisFriedrich/coderhouse-javascript/sampleData'
 

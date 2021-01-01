@@ -1,8 +1,8 @@
 'use strict'
 
-///////////////
-// Main Tree //
-///////////////
+/////////////////////
+// Data Management //
+/////////////////////
 
 const flat = []
 const tree = []
@@ -199,4 +199,6 @@ const clearStorage = () => {
 }
 
 // Attach Events
-get('#clearStorage').addEventListener('click', clearStorage)
+$(() => {
+  get('#clearStorage').addEventListener('click', clearStorage)
+})

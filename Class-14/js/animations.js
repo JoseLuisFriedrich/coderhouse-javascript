@@ -1,6 +1,11 @@
 
-// Components
+'use strict'
 
+////////////////
+// Animations //
+////////////////
+
+// Components
 const projectComponentAnimation = (componentId) => {
   $(`#${componentId}`)
     .delay(200)

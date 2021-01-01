@@ -1,5 +1,9 @@
 'use strict'
 
+//////////////////
+// Core Classes //
+//////////////////
+
 // Factory Pattern
 function classFactory(type) {
   switch (type) {
