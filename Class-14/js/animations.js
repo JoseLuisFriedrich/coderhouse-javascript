@@ -10,31 +10,42 @@ const projectComponentAnimation = (componentId) => {
 }
 
 const basicComponentAnimation = (componentId, duration) => {
-  $(`#${componentId}`).delay(2000).slideDown(duration)
+  $(`#${componentId}`).delay(500).slideDown(duration)
 }
 
-// Animake when on view
-
-const inView = (elementId) => {
-  const elem = $(`#${elementId}`)
-  var docViewTop = $(window).scrollTop();
-  var docViewBottom = docViewTop + $(window).height();
-
-  var elemTop = $(elem).offset().top;
-  var elemBottom = elemTop + $(elem).height();
-
-  return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+const textAnimation = (element) => {
+  element.animate({ left: '0px' })
 }
 
+// Animate when on view
+const inView = (element) => {
+  const screenTop = $(window).scrollTop()
+  const screenBottom = screenTop + $(window).height()
+
+  const elementTop = $(element).offset().top
+  const elementBottom = elementTop + $(element).height()
+
+  return (elementBottom <= screenBottom && elementTop >= screenTop)
+}
+
+// Trigger animation when element in view
 const triggerAnimations = () => {
-  triggers.forEach(t => {
-    const visible = inView(t.element)
-    if ((visible && !t.status) || (!visible && t.status)) {
-      t.status = visible
+  const remove = []
 
-      if (visible)
-        t.trigger()
+  triggers.forEach(t => {
+    const element = $(`${t.elementId}`)
+    const visible = inView(element)
+
+    if (visible) {
+      t.trigger(element)
+      remove.push(t)
     }
+  })
+
+  // Remove from array after animation
+  remove.forEach(t => {
+    const index = triggers.indexOf(t);
+    triggers.splice(index, 1);
   })
 }
 

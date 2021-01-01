@@ -6,7 +6,7 @@ const components = ['Header', 'Category', 'Task'] //, 'Resource', 'Resource', 'R
 let resourceId = 1
 let duration = 1000
 
-const loadProject = () => {
+const loadProject = (dummy) => {
   components.forEach(componentName => {
     const component = classFactory(componentName)
     component.text = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
@@ -23,7 +23,17 @@ const loadProject = () => {
 
 // Animation Triggers
 const triggers = [
-  { element: 'sampleData', 'trigger': loadProject, 'status': false }
+  { elementId: '#sampleData', 'trigger': loadProject },
+  { elementId: '#introTitle', 'trigger': textAnimation },
+  { elementId: '#introDescription', 'trigger': textAnimation },
+  { elementId: '#tutorialTitle', 'trigger': textAnimation },
+  { elementId: '#tutorialDescription', 'trigger': textAnimation },
+  { elementId: '#sampleTitle', 'trigger': textAnimation },
+  { elementId: '#sampleDescription', 'trigger': textAnimation },
+  { elementId: '#troubleshootingTitle', 'trigger': textAnimation },
+  { elementId: '#troubleshootingDescription', 'trigger': textAnimation },
+  { elementId: '#developmentTitle', 'trigger': textAnimation },
+  { elementId: '#developmentDescription', 'trigger': textAnimation },
 ]
 
 $(() => {
