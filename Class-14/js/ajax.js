@@ -1,9 +1,9 @@
 
-const endpoint = 'https://my-json-server.typicode.com/JoseLuisFriedrich/coderhouse-javascript/demoData'
+const endpoint = 'https://my-json-server.typicode.com/JoseLuisFriedrich/coderhouse-javascript/sampleData'
 
-const getDemoDataFromServer = () => {
+const getSampleDataFromServer = () => {
 
-  set('#loading', 'Cargando...')
+  set('#message', 'Cargando...')
 
   $.ajax({
     url: endpoint,
@@ -14,13 +14,13 @@ const getDemoDataFromServer = () => {
 
       // Load Components
       loadComponents(data, 'root')
-      set('#loading', '&nbsp;')
+      set('#message', '&nbsp;')
     },
-    error: function (xhr, status, errorThrown) {
-      console.log(xhr)
+    error: function (xhr) {
+      set('#message', xhr.statusText)
     }
   })
 }
 
-// Attach Listener to demo data button
-$('#demoData').on('click', getDemoDataFromServer)
+// Attach Listener to sample data button
+$('#sampleData').on('click', getSampleDataFromServer)

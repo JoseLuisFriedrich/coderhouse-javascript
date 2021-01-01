@@ -7,6 +7,10 @@
 const flat = []
 const tree = []
 
+const getParent = (parentId) => {
+  return flat.find(c => c.id === parentId) || null
+}
+
 const getPrevious = (index, type = null) => {
   if (index > 0) {
     for (let i = index - 1; i >= 0; i--) {
@@ -37,26 +41,13 @@ const propagate = (component) => {
   // Previous
   switch (component.type) {
     case 'Header':
+
     case 'Category':
       if (component.hasChildren()) {
         component.setStartDate(component.firstChild().startDate, true, false)
         component.setEndDate(component.lastChild(component.type === 'Category').endDate, true, false)
         component.setDuration(dateDiff(component.startDate, component.endDate), true, false)
       } else {
-        // if (component.type == 'Category') {
-        //   const header = flat.find(c => c.id === component.parentId)
-        //   const child = parent.lastChild(true)
-        //   if(child.type !== 'Task') {
-
-        //   }
-
-        //   // if (parent.hasChildren()) {
-        //   //   console.log('ok')
-        //   // } else {
-        //   //   console.log('empty')
-        //   // }
-        // }
-
         const previous = getPrevious(index)
         if (previous !== null) {
           component.setStartDate(previous.endDate, true, false)
@@ -95,7 +86,7 @@ const propagate = (component) => {
       // Propage Up
       if (component.type === 'Task') {
         while (component.parentId !== 0) {
-          component = flat.find(c => c.id === component.parentId)
+          component = getParent(component.parentId)
           propagate(component)
         }
       }
@@ -118,7 +109,7 @@ const addComponent = (component, parentId) => {
     propagate(component)
   } else {
     // Flat
-    const parent = flat.find(c => c.id === parentId)
+    const parent = getParent(parentId)
     const parentLastChild = parent.lastChild(true) || parent
     flat.splice(flat.indexOf(parentLastChild) + 1, 0, component) //insert component in flat where in the order where it belongs
 
@@ -144,49 +135,40 @@ const addComponent = (component, parentId) => {
 }
 
 const delComponent = (component) => {
+  const index = flat.indexOf(component) - 1
+  const parent = getParent(component.parentId)
+
   // Flat
-  const currentIndex = flat.indexOf(component) - 1
-  const category = flat.find(c => c.id === component.parentId)
   flat.splice(flat.indexOf(component), 1)
 
   // Tree
-  category.removeChild(component)
+  if (parent)
+    parent.removeChild(component)
 
   // UI
   $(`#${component.id}`).remove()
 
-  // Get remaining children
-  const categoryLastChild = category.lastChild(true)
+  // Category / Task
+  if (parent !== null) {
+    const firstTask = parent.firstChild(true, 'Task')
+    if (firstTask) {
+      propagate(firstTask)
+    } else {
+      delComponent(parent)
 
-  // If category has no children, I set the current category to 0, then find next component (if any) to link the date of the previous
-  if (categoryLastChild == null) {
-    // debugger
-    propagate(category)
-
-    // const previousTask = getPrevious(currentIndex, 'Task')
-
-    // // Reset dates since it has no children tasks
-    // parent.setDuration(0, true, true)
-    // parent.setStartDate(dateParse(0, previousTask.endDate), true, false)
-    // parent.setEndDate(dateParse(0, previousTask.endDate), true, false)
-
-    // // Link the next task to the previous one
-    // const next = getNext(currentIndex, 'Task')
-    // if (previousTask && next) {
-    //   next.setStartDate(dateParse(1, previousTask.endDate))
-    //   //propagate(next)
-    // }
-
-    // // Refresh header
-    // const header = flat.find(c => c.id === parent.parentId)
-    // propagate(header)
-  } else {
-    // Propagate
-    //console.log(parentLastChild.startDate, parentLastChild.endDate)
-    propagate(categoryLastChild)
+      // Link next task to previous, if any
+      const nextTask = getNext(index, 'Task')
+      if (nextTask) {
+        propagate(nextTask)
+      } else {
+        // If last task was delete, update parent endDate
+        const previousTask = getPrevious(index, 'Task')
+        if (previousTask) {
+          propagate(previousTask)
+        }
+      }
+    }
   }
-
-  saveTree()
 }
 
 const saveTree = () => {

@@ -106,14 +106,14 @@ function BaseComponent(placeholder, type) {
     }
 
     // Hide Empty Headers / Categories Dates
-    const visibility = (this.duration == 0 ? 'hidden' : 'visible')
-    const domStartDate = get(`#${this.id}-startDate`)
-    if (domStartDate.style.visibility !== visibility) {
-      domStartDate.style.visibility = visibility
+    // const visibility = (this.duration == 0 ? 'hidden' : 'visible')
+    // const domStartDate = get(`#${this.id}-startDate`)
+    // if (domStartDate.style.visibility !== visibility) {
+    //   domStartDate.style.visibility = visibility
 
-      const domEndDate = get(`#${this.id}-endDate`)
-      domEndDate.style.visibility = visibility
-    }
+    //   const domEndDate = get(`#${this.id}-endDate`)
+    //   domEndDate.style.visibility = visibility
+    // }
 
     // Propagate update
     if (trigger) {
@@ -237,7 +237,7 @@ function BaseComponent(placeholder, type) {
     return this.children[0]
   }
 
-  this.lastChild = (recursive = false) => {
+  this.lastChild = (recursive = false, type = null) => {
     if (!this.hasChildren()) return null
 
     let last = this.children[this.children.length - 1]
@@ -248,7 +248,8 @@ function BaseComponent(placeholder, type) {
       }
     }
 
-    return last
+    if (type === null || last.type === type)
+      return last
   }
 
   // Render Basic Component
@@ -261,9 +262,9 @@ function BaseComponent(placeholder, type) {
   }
 
   // Render Project Component
-  this.renderProjectComponent = (isFirst) => {
+  this.renderProjectComponent = (isFirstTask) => {
     const isTask = (this.type === 'Task')
-    const readOnlyStartDate = !isFirst
+    const readOnlyStartDate = !isFirstTask
     const readOnlyEndDate = !isTask
 
     return createDom(
@@ -275,7 +276,7 @@ function BaseComponent(placeholder, type) {
           { id: `${this.id}-duration`, tag: 'input', type: 'number', readOnly: readOnlyEndDate, value: this.duration, style: 'width: 50px', attributes: { 'data-name': 'duration' }, event: { 'type': 'click', 'function': this.handleChange } },
           { id: `${this.id}-startDate`, tag: 'input', type: 'date', readOnly: readOnlyStartDate, value: this.startDate, style: 'width: 100px', attributes: { 'data-name': 'startDate' }, event: { 'type': 'change', 'function': this.handleChange } },
           { id: `${this.id}-endDate`, tag: 'input', type: 'date', readOnly: readOnlyEndDate, value: this.endDate, style: 'width: 100px', attributes: { 'data-name': 'endDate' }, event: { 'type': 'change', 'function': this.handleChange } },
-          { id: `${this.id}-delete`, tag: 'img', style: 'width: 20px', attributes: { 'data-name': 'delete', 'src': isTask && !isFirst ? 'images/delete.png' : '' }, event: { 'type': 'click', 'function': this.handleChange } },
+          { id: `${this.id}-delete`, tag: 'img', style: 'width: 20px', attributes: { 'data-name': 'delete', 'src': (!isFirstTask && isTask ? 'images/delete.png' : '') }, event: { 'type': 'click', 'function': this.handleChange } },
         ]
       })
   }

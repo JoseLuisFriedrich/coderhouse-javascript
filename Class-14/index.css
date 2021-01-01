@@ -19,6 +19,7 @@ div {
   margin: 0 auto 0 auto;
 }
 
+span,
 p {
   font-size: 2.5rem;
   line-height: 2;
@@ -31,9 +32,9 @@ h3 {
 button {
   padding: 10px 20px;
   font-weight: 700;
-  color: white;
+  color: #fff;
   border: none;
-  background: #275efe;
+  background: #ff576b;
   cursor: pointer;
   margin-right: 2rem;
 }
@@ -169,7 +170,7 @@ input[type='text'] {
 
 /* Drag & Drop */
 
-#loading {
+#message {
   color: #ff576b;
 }
 
@@ -209,4 +210,9 @@ input[type='date']::-webkit-datetime-edit-day-field {
   position: absolute !important;
   color: #000;
   left: 4px;
+}
+
+::-webkit-input-placeholder {
+  font-style: italic;
+  color: #b6bfc8;
 }
