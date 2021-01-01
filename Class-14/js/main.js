@@ -22,24 +22,16 @@ const loadProject = (dummy) => {
 
 
 // Animation Triggers
-const triggers = [
-  { elementId: '#sampleData', 'trigger': loadProject },
-  { elementId: '#introTitle', 'trigger': textAnimation },
-  { elementId: '#introDescription', 'trigger': textAnimation },
-  { elementId: '#tutorialTitle', 'trigger': textAnimation },
-  { elementId: '#tutorialDescription', 'trigger': textAnimation },
-  { elementId: '#sampleTitle', 'trigger': textAnimation },
-  { elementId: '#sampleDescription', 'trigger': textAnimation },
-  { elementId: '#troubleshootingTitle', 'trigger': textAnimation },
-  { elementId: '#troubleshootingDescription', 'trigger': textAnimation },
-  { elementId: '#developmentTitle', 'trigger': textAnimation },
-  { elementId: '#developmentDescription', 'trigger': textAnimation },
-]
+const triggers = [{ elementId: '#sampleData', 'trigger': loadProject }]
+
+const sections = ['intro', 'tutorial', 'sample', 'troubleshooting', 'development']
+sections.forEach(section => {
+  triggers.push({ elementId: `#${section}Title`, 'trigger': textAnimation })
+  triggers.push({ elementId: `#${section}Description`, 'trigger': textAnimation })
+})
 
 $(() => {
-  // Animations
   $(window).bind('scroll', triggerAnimations)
-
   triggerAnimations()
 })
 
