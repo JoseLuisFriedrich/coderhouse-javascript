@@ -124,11 +124,7 @@ const addComponent = (component, parentId) => {
     propagate(component)
   }
 
-  $(`#${component.id}`)
-    .delay(200)
-    .css("display", "flex")
-    .hide()
-    .slideDown(500);
+  projectComponentAnimation(component.id)
 
   saveTree()
   return component
@@ -169,6 +165,8 @@ const delComponent = (component) => {
       }
     }
   }
+
+  saveTree()
 }
 
 const saveTree = () => {
