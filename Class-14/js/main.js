@@ -36,5 +36,6 @@ sections.forEach(section => {
 // Load
 $(() => {
   $(window).bind('scroll', triggerAnimations)
+
   triggerAnimations()
 })

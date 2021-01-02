@@ -21,8 +21,7 @@ const addRow = (id, text, fillId = false, th = false) => {
   }, '#gantt')
 }
 
-const addGanttFirstRow = () => {
-  // Gantt
+const addGanttHeader = () => {
   addRow(guid(), '', true, true)
 }
 
@@ -30,23 +29,21 @@ const updateGanttRow = (component) => {
 
 }
 
+const delGanttRow = (component) => {
+
+}
+
 const addGanttRow = (component) => {
   if (component.type !== 'Task') return
-
 
   if (component.isFirstTask) {
     startDate = component.startDate
   }
 
-  const dom = addRow(component.id, component.text, false)
-
-
-
   const startCell = dateDiff(startDate, component.startDate)
   const endCell = startCell + component.duration
 
-  console.log(component.text, startCell, endCell)
-
+  const dom = addRow(component.id, component.text, false)
   for (let i = startCell; i < endCell; i++) {
     dom.children[i + 1].classList.add('ganttCell')
   }
@@ -54,5 +51,5 @@ const addGanttRow = (component) => {
 
 // Load
 $(() => {
-  addGanttFirstRow()
+  addGanttHeader()
 })
