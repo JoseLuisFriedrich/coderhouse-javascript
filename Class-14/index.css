@@ -186,10 +186,6 @@ input[type='text'] {
   color: #ff576b;
 }
 
-.ganttCell {
-  background-color: #ff576b;
-}
-
 .drop {
   /* border: 0.6rem dashed #fff; */
   cursor: pointer;
@@ -233,18 +229,35 @@ input[type='date']::-webkit-datetime-edit-day-field {
   color: #b6bfc8;
 }
 
-#ganttContainer {
-  border: 1px solid red;
-  height: 500px;
-  overflow: auto;
-}
+/* Gantt */
 
 table {
   border-collapse: collapse;
+  position: relative;
+  display: block;
+  overflow-x: auto;
+
   font-size: 1.5rem;
+  /* line-height: 2; */
   font-weight: 500;
 }
 
-table td {
-  border: 1px solid blue;
+th {
+  min-width: 30px;
+  /* border-left: 1px solid red;
+  border-right: 1px solid red; */
+  padding-bottom: 10px;
+}
+
+td {
+  text-align: left;
+}
+
+th:nth-child(1) {
+  min-width: 400px;
+  text-align: left;
+}
+
+.ganttCell {
+  background-color: #ff576b;
 }

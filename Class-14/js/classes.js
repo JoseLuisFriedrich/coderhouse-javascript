@@ -33,26 +33,6 @@ function Task() {
   Object.seal(this)
 }
 
-// function Resource() {
-//   BaseComponent.call(this, 'Recurso', 'Resource')
-//   this.parentType = 'Task'
-
-//   //Custom Basic Render
-//   this.renderBasicComponent = (parentSelector) => {
-//     return createDom({
-//       tag: 'div', id: this.id, text: this.text, className: 'component',
-//       attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-parent': this.parentType.toLowerCase() },
-//       children: [
-//         {
-//           tag: 'input', placeholder: 'price per hour', type: 'text', style: 'width: 100%',
-//         }
-//       ]
-//     }, parentSelector)
-//   }
-
-//   Object.seal(this)
-// }
-
 // Base Component
 function BaseComponent(placeholder, type) {
   // Props

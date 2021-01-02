@@ -5,12 +5,12 @@
 //////////
 
 // Add Main Components
-const components = ['Header', 'Category', 'Task'] //, 'Resource', 'Resource', 'Resource'
+const components = ['Header', 'Category', 'Task']
 
 let resourceId = 1
 let duration = 1000
 
-const loadProject = (dummy) => {
+const loadProject = () => {
   components.forEach(componentName => {
     const component = classFactory(componentName)
     component.text = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
