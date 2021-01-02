@@ -238,15 +238,14 @@ table {
   overflow-x: auto;
 
   font-size: 1.5rem;
-  /* line-height: 2; */
   font-weight: 500;
+  border: 0.3rem solid #000;
+  /* color: #ff576b; */
 }
 
 th {
   min-width: 30px;
-  /* border-left: 1px solid red;
-  border-right: 1px solid red; */
-  padding-bottom: 10px;
+  border-bottom: 0.3rem solid #000;
 }
 
 td {
@@ -256,7 +255,13 @@ td {
 th:nth-child(1) {
   min-width: 400px;
   text-align: left;
+  border-bottom: 0;
+  border-right: 0.3rem solid #000;
 }
+
+/* td:nth-child(1) {
+  border-right: 0.3rem solid #000;
+} */
 
 .ganttCell {
   background-color: #ff576b;
