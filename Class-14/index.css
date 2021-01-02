@@ -186,6 +186,10 @@ input[type='text'] {
   color: #ff576b;
 }
 
+.ganttCell {
+  background-color: #ff576b;
+}
+
 .drop {
   /* border: 0.6rem dashed #fff; */
   cursor: pointer;

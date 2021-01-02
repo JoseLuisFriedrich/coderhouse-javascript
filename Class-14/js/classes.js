@@ -65,13 +65,14 @@ function BaseComponent(placeholder, type) {
   this.parentType = null
   this.children = []
   this.parentId = 0
+  this.isFirstTask = false
 
   // When I read data from storage
   this.set = (data) => {
     this.id = data.id
     this.text = data.text
     this.type = data.type
-    this.duration = data.duration
+    this.duration = Number(data.duration)
     this.startDate = data.startDate
     this.endDate = data.endDate
     this.parentType = data.parentType
@@ -267,6 +268,8 @@ function BaseComponent(placeholder, type) {
 
   // Render Project Component
   this.renderProjectComponent = (isFirstTask) => {
+    this.isFirstTask = isFirstTask
+
     const isTask = (this.type === 'Task')
     const readOnlyStartDate = !isFirstTask
     const readOnlyEndDate = !isTask

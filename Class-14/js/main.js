@@ -33,18 +33,8 @@ sections.forEach(section => {
   triggers.push({ elementId: `#${section}Description`, 'trigger': textAnimation })
 })
 
+// Load
 $(() => {
   $(window).bind('scroll', triggerAnimations)
   triggerAnimations()
-
-  // Gantt
-  const columns = [{ tag: 'td', text: 'Task' }]
-  for (let i = 0; i < 100; i++) {
-    columns.push({ tag: 'td', text: (i + 1) })
-  }
-
-  createDom({
-    tag: 'tr',
-    children: columns
-  }, '#gantt')
 })

@@ -126,6 +126,9 @@ const addComponent = (component, parentId) => {
 
   projectComponentAnimation(component.id)
 
+  // Add GanttRow
+  addGanttRow(component)
+
   saveTree()
   return component
 }

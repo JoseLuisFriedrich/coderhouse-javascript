@@ -53,4 +53,3 @@ const triggerAnimations = () => {
     triggers.splice(index, 1);
   })
 }
-
