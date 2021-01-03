@@ -4,9 +4,11 @@
 // Gantt //
 ///////////
 
+const gantt = {}
+
 let startDate = dateParse(0)
 
-const addRow = (id, text, fillId = false, th = false) => {
+gantt._addRow = (id, text, fillId = false, th = false) => {
   const columnType = (th ? 'th' : 'td')
   const columns = [{ tag: columnType, text: text }]
 
@@ -21,19 +23,19 @@ const addRow = (id, text, fillId = false, th = false) => {
   }, '#gantt')
 }
 
-const addGanttHeader = () => {
-  addRow(guid(), '', true, true)
+gantt.addHeader = () => {
+  gantt._addRow(guid(), '', true, true)
 }
 
-const updateGanttRow = (component) => {
-
+gantt.setText = (component) => {
+  get(`#${component.id}-gantt > td`).innerText = component.text
 }
 
-const delGanttRow = (component) => {
+gantt.delRow = (component) => {
   $(`#${component.id}-gantt`).remove()
 }
 
-const addGanttRow = (component) => {
+gantt.addRow = (component) => {
   if (component.type !== 'Task') return
 
   if (component.isFirstTask) {
@@ -43,13 +45,13 @@ const addGanttRow = (component) => {
   const startCell = dateDiff(startDate, component.startDate)
   const endCell = startCell + component.duration
 
-  const dom = addRow(component.id, component.text, false)
+  const dom = gantt._addRow(component.id, component.text, false)
   for (let i = startCell; i < endCell; i++) {
     dom.children[i + 1].classList.add('ganttCell')
   }
 }
 
-const clearGantt = () => {
+gantt.clear = () => {
   const rows = $("#gantt tr[id*=-gantt]")
   $.each(rows, function (index, row) {
     row.remove()
@@ -58,5 +60,5 @@ const clearGantt = () => {
 
 // Load
 $(() => {
-  addGanttHeader()
+  gantt.addHeader()
 })

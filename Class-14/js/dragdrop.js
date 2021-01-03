@@ -4,10 +4,12 @@
 // Drag & Drop //
 /////////////////
 
+const dragdrop = {}
+
 let parentType = null //'coz I can't read dataTransfer on dragEnter event
 let mainComponent = null //when I drop on any control of the component
 
-const getIfMatch = (event) => {
+dragdrop.getIfMatch = (event) => {
   let component = event.target
 
   while (component.dataset.type === undefined) {
@@ -28,19 +30,19 @@ const getIfMatch = (event) => {
   return null
 }
 
-const drag = event => {
+dragdrop.drag = event => {
   parentType = event.currentTarget.dataset.parent
   event.dataTransfer.setData('type', event.currentTarget.dataset.type)
 }
 
-const dragEnter = event => {
-  getIfMatch(event)
+dragdrop.dragEnter = event => {
+  dragdrop.getIfMatch(event)
 }
 
-const allowDrop = event => event.preventDefault()
+dragdrop.allowDrop = event => event.preventDefault()
 
-const drop = event => {
-  const dropComponent = getIfMatch(event)
+dragdrop.drop = event => {
+  const dropComponent = dragdrop.getIfMatch(event)
   if (dropComponent) {
     dropComponent.classList.remove('drop')
 
@@ -52,5 +54,4 @@ const drop = event => {
 }
 
 // Attach Listeners to show dotted on target
-// get('#root').addEventListener('dragenter', dragEnter)
-$('#root').on('dragenter', dragEnter)
+$('#root').on('dragenter', dragdrop.dragEnter)

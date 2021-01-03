@@ -16,7 +16,7 @@ const loadProject = () => {
     component.text = (componentName === 'Resource' ? `RESOURCE ${resourceId++}` : componentName.toUpperCase())
     component.renderBasicComponent('#components')
 
-    basicComponentAnimation(component.id, duration)
+    animation.basicComponent(component.id, duration)
     duration += 1000
   })
 
@@ -29,13 +29,13 @@ const triggers = [{ elementId: '#sampleData', 'trigger': loadProject }]
 const sections = ['intro', 'tutorial', 'sample', 'troubleshooting', 'development']
 
 sections.forEach(section => {
-  triggers.push({ elementId: `#${section}Title`, 'trigger': textAnimation })
-  triggers.push({ elementId: `#${section}Description`, 'trigger': textAnimation })
+  triggers.push({ elementId: `#${section}Title`, 'trigger': animation.text })
+  triggers.push({ elementId: `#${section}Description`, 'trigger': animation.text })
 })
 
 // Load
 $(() => {
-  $(window).bind('scroll', triggerAnimations)
+  $(window).bind('scroll', animation.triggers)
 
-  triggerAnimations()
+  animation.triggers()
 })

@@ -124,10 +124,10 @@ const addComponent = (component, parentId) => {
     propagate(component)
   }
 
-  projectComponentAnimation(component.id)
+  animation.projectComponent(component.id)
 
   // Add GanttRow
-  addGanttRow(component)
+  gantt.addRow(component)
 
   saveTree()
   return component
@@ -148,7 +148,7 @@ const delComponent = (component) => {
   $(`#${component.id}`).remove()
 
   // Gantt
-  delGanttRow(component)
+  gantt.delRow(component)
 
   // Category / Task
   if (parent !== null) {
@@ -201,7 +201,7 @@ const clearStorage = () => {
   flat.splice(0, flat.length);
   tree.splice(0, tree.length);
 
-  clearGantt()
+  gantt.clear()
 
   localStorage.clear()
 }

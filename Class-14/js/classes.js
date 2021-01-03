@@ -63,6 +63,8 @@ function BaseComponent(placeholder, type) {
     // State
     this.text = text
 
+    gantt.setText(this)
+
     // Persist
     saveTree()
   }
@@ -89,16 +91,6 @@ function BaseComponent(placeholder, type) {
         domValue.value = this.duration
       }
     }
-
-    // Hide Empty Headers / Categories Dates
-    // const visibility = (this.duration == 0 ? 'hidden' : 'visible')
-    // const domStartDate = get(`#${this.id}-startDate`)
-    // if (domStartDate.style.visibility !== visibility) {
-    //   domStartDate.style.visibility = visibility
-
-    //   const domEndDate = get(`#${this.id}-endDate`)
-    //   domEndDate.style.visibility = visibility
-    // }
 
     // Propagate update
     if (trigger) {
@@ -242,7 +234,7 @@ function BaseComponent(placeholder, type) {
     return createDom(
       {
         tag: 'div', id: this.id, text: placeholder, className: 'component',
-        attributes: { 'draggable': 'true', 'ondragstart': 'drag(event)', 'data-type': this.type, 'data-parent': this.parentType },
+        attributes: { 'draggable': 'true', 'ondragstart': 'dragdrop.drag(event)', 'data-type': this.type, 'data-parent': this.parentType },
       }, parentSelector)
   }
 

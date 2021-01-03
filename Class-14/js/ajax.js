@@ -4,16 +4,17 @@
 // Ajax //
 //////////
 
+const ajax = {}
+
 const endpoint = 'https://my-json-server.typicode.com/JoseLuisFriedrich/coderhouse-javascript/sampleData'
 
-const getSampleDataFromServer = () => {
-
+ajax.getSampleData = () => {
   set('#message', 'Cargando...')
 
   $.ajax({
     url: endpoint,
     dataType: 'json',
-    success: function (data) {
+    success: (data) => {
       // Clear storage
       clearStorage()
 
@@ -28,4 +29,4 @@ const getSampleDataFromServer = () => {
 }
 
 // Attach Listener to sample data button
-$('#sampleData').on('click', getSampleDataFromServer)
+$('#sampleData').on('click', ajax.getSampleData)

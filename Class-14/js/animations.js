@@ -5,8 +5,10 @@
 // Animations //
 ////////////////
 
+const animation = {}
+
 // Components
-const projectComponentAnimation = (componentId) => {
+animation.projectComponent = (componentId) => {
   $(`#${componentId}`)
     .delay(200)
     .css('display', 'flex')
@@ -14,16 +16,16 @@ const projectComponentAnimation = (componentId) => {
     .slideDown(500)
 }
 
-const basicComponentAnimation = (componentId, duration) => {
+animation.basicComponent = (componentId, duration) => {
   $(`#${componentId}`).delay(500).slideDown(duration)
 }
 
-const textAnimation = (element) => {
+animation.text = (element) => {
   element.animate({ left: '0px' })
 }
 
 // Animate when on view
-const inView = (element) => {
+animation.inView = (element) => {
   const screenTop = $(window).scrollTop()
   const screenBottom = screenTop + $(window).height()
 
@@ -34,12 +36,12 @@ const inView = (element) => {
 }
 
 // Trigger animation when element in view
-const triggerAnimations = () => {
+animation.triggers = () => {
   const remove = []
 
   triggers.forEach(t => {
     const element = $(`${t.elementId}`)
-    const visible = inView(element)
+    const visible = animation.inView(element)
 
     if (visible) {
       t.trigger(element)
