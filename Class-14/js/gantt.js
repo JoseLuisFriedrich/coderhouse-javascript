@@ -15,7 +15,7 @@ const addRow = (id, text, fillId = false, th = false) => {
   }
 
   return createDom({
-    id: `${id}-gantt`,
+    id: th ? 'header' : `${id}-gantt`,
     tag: 'tr',
     children: columns
   }, '#gantt')
@@ -30,7 +30,7 @@ const updateGanttRow = (component) => {
 }
 
 const delGanttRow = (component) => {
-
+  $(`#${component.id}-gantt`).remove()
 }
 
 const addGanttRow = (component) => {
@@ -47,6 +47,13 @@ const addGanttRow = (component) => {
   for (let i = startCell; i < endCell; i++) {
     dom.children[i + 1].classList.add('ganttCell')
   }
+}
+
+const clearGantt = () => {
+  const rows = $("#gantt tr[id*=-gantt]")
+  $.each(rows, function (index, row) {
+    row.remove()
+  });
 }
 
 // Load

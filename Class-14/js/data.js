@@ -147,6 +147,9 @@ const delComponent = (component) => {
   // UI
   $(`#${component.id}`).remove()
 
+  // Gantt
+  delGanttRow(component)
+
   // Category / Task
   if (parent !== null) {
     const firstTask = parent.firstChild(true, 'Task')
@@ -197,6 +200,8 @@ const clearStorage = () => {
 
   flat.splice(0, flat.length);
   tree.splice(0, tree.length);
+
+  clearGantt()
 
   localStorage.clear()
 }
