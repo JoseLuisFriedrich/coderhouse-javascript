@@ -63,6 +63,7 @@ function BaseComponent(placeholder, type) {
     // State
     this.text = text
 
+    // Gantt
     gantt.setText(this)
 
     // Persist
@@ -77,7 +78,7 @@ function BaseComponent(placeholder, type) {
     }
 
     // State
-    this.duration = duration
+    this.duration = Number(duration)
 
     // Triggers
     if (trigger) {
@@ -150,6 +151,9 @@ function BaseComponent(placeholder, type) {
         this.setDuration(duration, true)
       }
     }
+
+    // Gantt
+    gantt.setDate(this)
 
     // Dom
     if (updateDom) {
