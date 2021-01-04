@@ -95,6 +95,9 @@ const propagate = (component) => {
 }
 
 const addComponent = (component, parentId) => {
+  // Add GanttRow
+  gantt.addRow(component)
+
   if (parentId === 'root') {
     // Flat
     flat.push(component)
@@ -125,9 +128,6 @@ const addComponent = (component, parentId) => {
   }
 
   animation.projectComponent(component.id)
-
-  // Add GanttRow
-  gantt.addRow(component)
 
   saveTree()
   return component
