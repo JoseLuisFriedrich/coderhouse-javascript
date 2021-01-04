@@ -56,6 +56,7 @@ function BaseComponent(placeholder, type) {
     this.startDate = data.startDate
     this.endDate = data.endDate
     this.parentType = data.parentType
+    this.isFirstTask = data.isFirstTask
   }
 
   // Setters
