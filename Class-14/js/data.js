@@ -177,7 +177,7 @@ const delComponent = (component) => {
 
 const saveTree = () => {
   // Storage
-  localStorage.setItem('treeData', JSON.stringify(tree))
+  localStorage.setItem('t', JSON.stringify(tree))
 }
 
 const loadComponents = (data, parentId) => {
@@ -192,7 +192,7 @@ const loadComponents = (data, parentId) => {
 
 const loadDataFromStorage = () => {
   // Load from Storage
-  loadComponents(JSON.parse(localStorage.getItem('treeData') || '[]'), 'root')
+  loadComponents(JSON.parse(localStorage.getItem('t') || '[]'), 'root')
 }
 
 const clearStorage = () => {
