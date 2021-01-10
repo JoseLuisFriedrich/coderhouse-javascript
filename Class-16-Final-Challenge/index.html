@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+
+<head>
+  <title>José Luis Friedrich</title>
+
+  <!-- Meta -->
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+  <!-- Styles -->
+  <link rel='stylesheet' href='index.css'>
+
+  <!-- External Scripts -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- App Scripts -->
+  <script defer src='js/helper.js'></script>
+  <script defer src='js/ajax.js'></script>
+  <script defer src='js/animations.js'></script>
+  <script defer src='js/classes.js'></script>
+  <script defer src='js/data.js'></script>
+  <script defer src='js/dragdrop.js'></script>
+  <script defer src='js/gantt.js'></script>
+  <script defer src='js/main.js'></script>
+</head>
+
+<body>
+
+  <section class="intro">
+    <div>
+      <h3 id='introTitle'>Estimado Proyecto...</h3>
+      <p id="introDescription">Bienvenidos a "Estimado Proyecto", donde podrás estimar el tiempo que te llevará un proyecto.
+        Si bien está diseñado para proyectos de Software, podrás utilizarlo para estimar cualquier tipo de proyectos.
+      </p>
+    </div>
+  </section>
+
+  <section class="tutorial">
+    <div>
+      <h3 id='tutorialTitle'>Tutorial</h3>
+      <p id='tutorialDescription'>Es muy simple de utilizar, simplemente hacé drag & drop y editar de los componentes y listo!
+        Primero hacé drag & drop de Título, luego Categoría sobre el Título que quieras, y por último las Tareas sobre las Categorías.</p>
+    </div>
+    <div>
+      <h3 id='sampleTitle'>Ejemplo</h3>
+      <p id='sampleDescription'>Hacé click en el botón "Ejemplo" para visualizar un proyecto de ejemplo.</p>
+    </div>
+  </section>
+
+  <section class="main">
+    <div>
+      <!-- Main -->
+      <main>
+        <div class='containers' id='components'></div>
+        <div class='containers' id='root' ondrop='dragdrop.drop(event)' ondragover='dragdrop.allowDrop(event)' data-type='root'></div>
+      </main>
+    </div>
+
+    <br />
+    <button id="sampleData">Ejemplo</button>
+    <button id="clearStorage">Limpiar</button>
+    <br /><span id='message'>&nbsp;</span>
+
+    <!-- Gannt -->
+    <div>
+      <table id='gantt'></table>
+    </div>
+  </section>
+
+  <section class="misc">
+    <div>
+      <h3 id='troubleshootingTitle'>¿Problemas con la página?</h3>
+      <p id='troubleshootingDescription'>
+        <br />1. Utilizar Google Chrome.
+        <br />2. Limpiar el caché (Storage) haciéndo click en el botón "Limpiar".
+        <br />3. Probarlo en una resolución 2304x1440 o similar.
+      </p>
+    </div>
+    <div>
+      <h3 id='developmentTitle'>Desarrollo</h3>
+      <p id='developmentDescription'>Sitio Web fantasía desarrollado exclusivamente
+        <br />para el desafío final del curso CoderHouse Javascript utilizando:
+        <br />HTML, CSS, Vanilla JavaScript y jQuery.
+      </p>
+    </div>
+  </section>
+
+</body>
+
+</html>
