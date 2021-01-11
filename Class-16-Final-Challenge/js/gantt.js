@@ -13,7 +13,7 @@ gantt._addRow = (id, text, previousComponent, fillId = false, th = false) => {
   const columns = [{ tag: columnType, text: text }]
 
   for (let i = 0; i < 365; i++) {
-    columns.push({ tag: columnType, text: fillId ? (i + 1) : '' })
+    columns.push({ tag: columnType, text: fillId ? '' : '' })
   }
 
   const domElement = createDom({
@@ -58,6 +58,7 @@ gantt.setDate = (component, element = null) => {
   })
 
   // Add
+  console.log(startCell, endCell)
   for (let i = startCell; i < endCell; i++) {
     domElement.children[i + 1].classList.add('ganttCell')
   }
