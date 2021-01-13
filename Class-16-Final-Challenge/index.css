@@ -245,7 +245,6 @@ table {
 
 th {
   min-width: 30px;
-  /* border-bottom: 0.3rem solid #000; */
   font-weight: normal;
   font-size: 1rem;
 }
@@ -262,7 +261,6 @@ th:nth-child(1) {
   min-width: 400px;
   text-align: left;
   border-bottom: 0;
-  /* border-right: 0.3rem solid #000; */
 }
 
 .ganttCell {
