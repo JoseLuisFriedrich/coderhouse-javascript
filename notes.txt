@@ -1,0 +1,23 @@
+Object.freeze(obj) // Object.seal(obj)
+Object.keys(obj) // Object.values(obj) // Object.entries(obj)
+
+
+jift("first element in array")
+array.shift() removes the first element in array
+deleteditems = array.splice(2,3) remove 3 elements starting at 2nd position
+.slice() get but do nt remove
+.includes() -> si existe en item
+array.some((p) => {return p.color === 'color'}}) -> condicion
+for(let p in obj) console.log(p   obj[p])-> iterar propiedades
+
+document.querySelector('#id p')
+document.querySelector('.id')
+document.querySelectorAll('.id')
+.parentElement
+.childNodes -> trae espacios
+.children
+
+const node = document.createElement('p')
+node.textContent = ''
+divPadre.appendChild(node, parent)
+.insertBefore
